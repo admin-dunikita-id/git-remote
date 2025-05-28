@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Halaman Pencarian dengan Dark Mode</title>
+    <style>
+      /* Default body background */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s; /* Transisi yang mulus */
+            height: 100vh;
+            overflow: hidden; /* Menonaktifkan scroll di seluruh body */
+        }
+
+        /* Dark mode background */
+        body.dark-mode {
+            /*background-color: transparent; /* Membuat latar belakang transparan saat dark mode aktif */
+            color: white; /* Ubah warna teks menjadi putih */
+        }
+
+        /* Ketika mode gelap aktif dan kolom pencarian diklik */
+        body.dark-mode .search-box {
+            background-color: none; /* Kolom pencarian juga memiliki latar belakang transparan */
+        }
+
+        .dark-mode {
+            background-color: #111827;
+            color: #fff;
+        }
+
+        .dark-mode .top-container {
+            background-color: #1f2937f2; /* Mengubah warna latar belakang ketika dark mode aktif */
+            color: #fff;
+        }
+
+        /* Menambahkan layer abu-abu keputihan sebagai overlay */
+      .overlay {
+            display: none; /* Defaultnya disembunyikan */
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.6); /* Warna abu-abu keputihan dengan transparansi */
+            z-index: 999; /* Menempatkan overlay di atas konten lainnya */
+        }
+
+        .top-container {
+            background-color: #f8f8f8; /* Atur warna tetap */
+            min-width: 100%;
+            min-height: 100px;   /* Atur tinggi minimum agar tidak berubah */
+            transition: none !important; /* Nonaktifkan efek transisi jika ada */
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .top-container select {
+            max-width: 100%;
+            font-size: 16px;
+        }
+
+        /* Sembunyikan semua elemen ketika mode search aktif */
+        .hide-on-search {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .hide-on-search.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Membuat ikon search dan dark mode tetap di kiri halaman */
+        .search-container {
+            position: fixed;
+            top: 10px;
+            left: 200px; /* Memberikan jarak 2cm dari tepi kiri halaman */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .search-icon, .dark-mode-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+
+
+
+
+        .top-center-buttons .button i {
+            margin-right: 5px; /* Jarak antara ikon dan teks pada tombol "Sebelum" */
+        }
+        .top-center-buttons .button2 i {
+            margin-left: 5px; /* Jarak antara ikon dan teks pada tombol "Sesudah" */
+        }
+
+        /* Tombol sebelumnya ◁ dan tombol setelahnya ▷ di atas halaman bagian tengah */
+        .top-center-buttons {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        /* Tombol sebelumnya ◁  dengan gaya blok */
+        .top-center-buttons .button {
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 5px;
+            padding: 5px 10px; /* Padding lebih besar di kiri dan kanan untuk menambah ruang di sekitar teks */
+            border-radius: 20px 0 0 20px; /* Sisi kiri tumpul dan sisi kanan persegi */
+            color: #000000; /* Mengatur warna teks */
+            background-color: #ffffff; /* Membuat latar belakang transparan */
+            border: 2px solid #ffffff; /* Menambahkan border dengan warna yang sama */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
+        }
+
+        /* Tombol  setelahnya ▷ dengan gaya blok */
+        .top-center-buttons .button2 {
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 5px;
+            padding: 5px 10px; /* Padding lebih besar di kiri dan kanan untuk menambah ruang di sekitar teks */
+            border-radius: 0px 20px 20px 0px; /* Sisi kiri tumpul dan sisi kanan persegi */
+            color: #000000; /* Mengatur warna teks */
+            background-color: #ffffff; /* Membuat latar belakang transparan */
+            border: 2px solid #ffffff; /* Menambahkan border dengan warna yang sama */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi */
+        }
+
+        /* Dark mode styling */
+        body.dark-mode .top-center-buttons .button,
+        body.dark-mode .top-center-buttons .button2 {
+            background-color: transparent; /* Latar belakang transparan */
+            border: 1px solid #666; /* Border berwarna putih untuk tombol di dark mode */
+            color: #fff; /* Warna teks putih saat dark mode */
+        }
+
+         /* Efek ketika tombol ditekan atau di-hover pada node dark mode */
+         body.dark-mode .top-center-buttons .button:hover,
+         body.dark-mode .top-center-buttons .button2:hover {
+            /*background-color: #4CAF50; /* Latar belakang berubah ketika di-hover */
+            color: #4CAF50; /* Ubah warna teks menjadi putih */
+        }
+
+        /* Efek ketika tombol ditekan atau di-hover */
+        .top-center-buttons .button:hover,
+        .top-center-buttons .button2:hover {
+            /*background-color: #4CAF50; /* Latar belakang berubah ketika di-hover */
+            color: #4CAF50; /* Ubah warna teks menjadi putih */
+        }
+
+        
+
+
+        
+        
+
+        /* Tombol - dan = di bawah tombol + dan ? */
+        .bottom-center-buttons {
+            position: fixed;
+            top: 60px; /* Menyesuaikan posisi tombol ke bawah */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .bottom-center-buttons .button {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        /* Container untuk menampilkan dropdown kotak */
+        .dropdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: -5px;
+        }
+
+        /* Tombol dropdown */
+        .dropbtn {
+            background-color: #ffffff;
+            color: black;
+            padding: 4px 14px;
+            font-size: 16px;
+            border: 0px solid #ccc;
+            cursor: pointer;
+            min-width: 160px; /* Minimum lebar kotak */
+            text-align: left;
+            border-radius: 8px;
+            padding-right: 36px; /* beri ruang untuk ikon */
+            display: inline-flex;
+            justify-content: space-between;
+            align-items: center;
+            white-space: nowrap;
+            gap: 8px;
+            position: relative;
+            width: auto; /* Kotak akan menyesuaikan dengan panjang teks */
+        }
+
+        /* Dark mode styles for the dropdown buttons */
+        body.dark-mode .dropbtn,
+        body.dark-mode #ayahDropbtn {
+            background-color: transparent; /* Make background transparent */
+            color: white; /* Keep text white in dark mode */
+            border: 1px solid #666; /* Optional: Change border color for better visibility */
+        }
+
+        /* Ikon di dalam tombol */
+        .icon-stack {
+        position: absolute;
+        margin-left: 8px;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+        height: 16px;
+        display: inline-block;
+        }
+
+        .icon-stack .fa-angle-up {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 10px;
+        }
+
+        .icon-stack .fa-angle-down {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 10px;
+        }
+
+        /* Dropdown content (konten yang akan ditampilkan) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px; /* Minimum lebar kotak */
+            max-height: 200px; /* Max height untuk scroll */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 15px;
+            box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+            color: white;
+            list-style: none;
+            padding: 0px ;
+            margin: 0;
+            margin-top: 5px;
+            width: auto; /* Konten dropdown menyesuaikan dengan isi */
+            border: 1px solid #ffffff;
+            overflow-y: auto; /* Menambahkan scroll jika konten terlalu banyak */
+            z-index: 1;
+            white-space: nowrap;
+            border-radius: 5px;
+        }
+        /* Gaya mode gelap untuk konten dropdown */
+        /*body.dark-mode .dropdown-content {
+            background-color: #1f2937f2; /* Latar belakang gelap */
+        /*    color: white; /* Warna teks putih */
+        /*    border: 1px solid #666; /* Warna border yang sesuai */
+        /*}*/
+        
+
+        /* Padding berubah menjadi hijau ketika item diklik */
+        .selected-padding {
+            background-color: #c8f7c5 ; /* Memberikan warna hijau pada padding */
+            color: #4CAF50 !important; /* Warna teks menjadi hitam saat dipilih */
+            font-weight: bold;
+        }
+
+        /* Daftar surat */
+        .dropdown-content ul {
+            padding-left: 0;
+            list-style-type: none;
+            margin: 0; /* Menghilangkan margin untuk menghindari jarak antara item */
+        }
+
+        .dropdown-content li.selected-padding {
+            background-color: #e6f4ea;  /* hijau muda */
+            color: #2e7d32;             /* hijau tua */
+            font-weight: 600;
+            }
+
+        /* Gaya mode gelap untuk item dropdown */
+        /*body.dark-mode .dropdown-content li {
+            color: white; /* Warna teks item dropdown saat mode gelap */
+        /*}
+
+        /* Item dropdown */
+        .dropdown-content li {
+            padding: 10px 5px; /* Padding antara teks dan border */
+            text-align: left;
+            list-style: none;
+            border-bottom: 1px solid #eee; /* garis pemisah antar item */
+            align-items: center;
+            font-size: 16px;
+            white-space: nowrap; /* agar teks tidak pindah baris */
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex; /* Membuat item menjadi flexbox untuk menampung ikon */
+            justify-content: space-between; /* Spasi antara teks dan ikon */
+        }
+
+        /* Efek hover untuk seluruh konten */
+        .dropdown-content li:hover {
+            background-color: #79eb7a; /* Highlight saat hover */
+            color: black;
+        }
+
+        /* Gaya mode gelap untuk hover item dropdown */
+        /*body.dark-mode .dropdown-content li:hover {
+            background-color: #79eb7a; /* Warna latar belakang saat di-hover dalam mode gelap */
+        /*}*/
+
+        /* Tombol di dalam dropdown */
+        .dropdown-content button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        /* Tampilkan dropdown */
+        .show {
+            display: block;
+        }
+
+        /* Menampilkan dropdown saat tombol diklik */
+        .dropdown-content.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Efek saat hover di tombol dalam dropdown */
+        .dropdown-content button:hover {
+            /*background-color: #4CAF50; */
+            color: #4CAF50;
+        }
+
+        /* Efek tombol dropdown saat di-hover */
+        .dropbtn:hover {
+           /* background-color: #4CAF50; */
+            color: #4CAF50;
+        }
+
+        /* Menambahkan ikon check pada item yang dipilih */
+        .check-icon {
+            float: right;
+            display: none; /* Secara default sembunyikan ikon check */
+            color: #4CAF50; /* Mengatur warna check icon menjadi hijau */
+            margin-left: 10px;
+        }
+
+        /* Tampilkan ikon check saat item dipilih */
+        .selected-padding .check-icon {
+            display: inline-block !important; /* Menampilkan ikon check saat item dipilih */
+        }
+
+        /* Gaya tombol Pilih Ayat agar lebih kecil dan padat */
+        #ayahDropbtn {
+            padding: 6px 10px;
+            font-size: 14px;
+            min-width: unset;
+            width: auto;
+            height: auto;
+            line-height: 1.2;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            cursor: pointer;
+                }
+
+        #ayahDropbtn {
+            min-width: 70px;
+            max-width: 70px;
+        }
+
+        #ayahDropdownContent {
+            min-width: unset;        /* Hilangkan batas minimal lebar */
+            width: 70px;             /* Biarkan otomatis mengikuti isi */
+            max-width: 80px;         /* (Opsional) Batas maksimum agar tidak terlalu besar */
+            text-align: center;      /* Tengah untuk nomor */
+            padding: 4px 0;
+            margin-top: 2px;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Gaya mode gelap untuk konten dropdown */
+        /*body.dark-mode #ayahDropdownContent {
+            background-color: #1f2937f2; /* Latar belakang gelap */
+        /*    color: white; /* Warna teks putih */
+        /*    border: 1px solid #666; /* Warna border yang sesuai */
+        /*}*/
+
+        #ayahDropdownContent li {
+            padding: 8px 10px;        /* Padding lebih kecil */
+            font-size: 16px;         /* Ukuran font kecil */
+            cursor: pointer;
+        }
+
+        /* Gaya mode gelap untuk item dropdown */
+        /*body.dark-mode #ayahDropdownContent li {
+            color: white; /* Warna teks item dropdown saat mode gelap */
+        /*}*/
+
+        #ayahDropdownContent li:hover {
+            background-color: #79eb7a;
+        }
+
+        /* Gaya mode gelap untuk hover item dropdown */
+        /*body.dark-mode #ayahDropdownContent li:hover {
+            background-color: #79eb7a; /* Warna latar belakang saat di-hover dalam mode gelap */
+        /*}*/
+
+        /* Saat ada ayat yang dipilih */
+        #ayahDropbtn.selected {
+            color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        /* tanda check pada nomor ayat*/
+        #ayahDropdownContent li .check-icon {
+            display: none;
+            margin-left: 6px;
+            color: #4CAF50;
+        }
+
+        /* Warna teks ayat yang terpilih di dropdown */
+        #ayahDropdownContent li.selected {
+            color: #4CAF50;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #ayahDropdownContent li.selected .check-icon {
+            display: inline;
+        }
+
+        /* Ikon centang */
+        #ayahDropdownContent li.selected::after {
+            content: "✔";
+            position: absolute;
+            right: 8px;
+            color: #4CAF50;
+        }
+
+        /* Kolom pencarian dan riwayat di atas tengah halaman */
+        .search-box {
+            display: none; /* Menyembunyikan kolom pencarian secara default */
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%; /* Lebar kolom pencarian */
+            max-width: 600px; /* Lebar maksimal */
+            padding: 30px;
+            background-color: #fff; /* Latar belakang putih */
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            z-index: 2000; /* Z-index tinggi agar berada di atas semua elemen */
+        }
+
+        /* Dark mode untuk search box */
+        body.dark-mode .search-box {
+            background-color: #1f2937;
+            color: #fff;
+        }
+
+        body.dark-mode .search-box input {
+            background-color: #374151;
+            color: #fff;
+            border-color: #4b5563;
+        }
+
+        body.dark-mode .history-container {
+            background-color: #374151;
+            border-color: #4b5563;
+        }
+
+        .search-box button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-box input {
+            padding: 15px 20px;
+            font-size: 18px;
+            width: 100%; /* Kolom pencarian memenuhi lebar kolom */
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-box input:focus {
+            border-color: #4CAF50;
+        }
+
+        .search-box h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        body.dark-mode .search-box h2 {
+            color: #fff;
+        }
+
+        .content {
+            padding: 100px 20px;
+            width: 100%;
+            text-align: center;
+            overflow: auto; /* Mengaktifkan scroll hanya jika konten memanjang */
+        }
+
+        /* riwayat pencarian */
+        .history-container {
+            margin-top: 20px;
+            width: 100%; /* Lebar riwayat sesuai dengan kolom pencarian */
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-height: 250px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .history-container h3 {
+            margin: 0 0 15px 0;
+            color: #555;
+            font-size: 16px;
+        }
+
+        body.dark-mode .history-container h3 {
+            color: #ccc;
+        }
+
+        .history-container ul {
+            padding: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .history-container li {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .history-container li:hover {
+            background-color: #e8f5e8;
+        }
+
+        body.dark-mode .history-container li:hover {
+            background-color: #4b5563;
+        }
+
+        /* Search overlay untuk menutupi seluruh halaman */
+        .search-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1500;
+        }
+
+        /* Pop-up styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #FF7F50;
+            border: 2px solid #FF6347;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            z-index: 1001;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: popupAnimation 0.5s ease-in-out, fadeOut 1s ease-in 3s forwards;
+        }
+
+        @keyframes popupAnimation {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* tombol pengaturan */
+
+        .settings-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            z-index: 999;
+        }
+        .settings-button .fa-gear {
+            font-size: 18px;
+        }
+        /* Panel Pengaturan */
+        .settings-panel {
+            position: fixed;
+            top: 65px;
+            right: 20px;
+            width: 300px; /* atau 400px jika ingin lebih lebar */
+            min-height: 400px;
+            max-height: 90vh;
+            background-color: #fff; /* Latar belakang putih */
+            color: #333; /* Warna teks default */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            padding-bottom: 30px;
+            display: none;
+            z-index: 1000;
+        }
+        .settings-panel h3 {
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+        .settings-item.vertical {
+            display: block;
+        }
+        .settings-item {
+            margin-bottom: 15px;
+            display: flex;  /*  agar switch ke bagian kanan  */
+            justify-content: space-between;
+            align-items: center;
+        }
+        .settings-item label {
+            margin-bottom: 0; /* hilangkan margin bawah bawaan */
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        /* Range Slider */
+        input[type="range"] {
+            width: 120px; /* dikecilkan dari 100% */
+            height: 4px;
+            appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+            appearance: none;
+        }
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input {
+            display: none;
+        }
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: 0.4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        input:checked + .slider {
+            background-color: #007bff;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        /* pengaturan pilih bahasa terjemah */
+        .lang-options {
+            display: flex;
+            gap: 2px;
+            margin-top: 8px;
+        }
+        .lang-options button {
+            border: none;
+            background-color: #f0f0f0;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            min-width: 50px;
+            flex: 1 1 auto;
+            text-align: center;
+        }
+        .lang-options button:hover, 
+        .lang-options button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        /* Dropdown Select */
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        /* Close Modal on Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 900;
+        }
+
+        /* ========== bagian audio =========== */
+
+        .quran-ayah {
+        padding: 16px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #ccc;
+        text-align: right;
+        direction: rtl;
+        }
+
+        .latin {
+        font-size: 16px;
+        color: #4CAF50 ; /* ganti sesuai selera */
+        margin-top: 8px;
+        text-align: left;
+        direction: ltr;
+        }
+
+        .quran-ayah .latin,
+        .quran-ayah .translation {
+        text-align: left;
+        direction: ltr;
+        margin-top: 8px;
+        font-size: 16px;
+        }
+
+        .quran-ayah .audio-control {
+        margin-top: 10px;
+        text-align: left;
+        }
+
+        .quran-ayah.playing {
+        background-color: #e0ffe0;
+        border-left: 5px solid #4CAF50;
+        padding-left: 10px;
+        transition: background-color 0.3s ease;
+        }
+
+
+        /* bagian titik 3 pada ayat ( pojok kiri atas ) */
+        .ayah-menu {
+        position: relative;
+        display: inline-block;
+        float: left;
+        }
+
+        .ayah-menu button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        }
+
+        .ayah-menu button.menu-trigger {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        }
+
+        .ayah-menu-content {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        z-index: 999;
+        min-width: 200px;
+        padding: 4px 0;
+        border-radius: 6px;
+        }
+
+        .ayah-menu-content.show {
+        display: block;
+        }
+
+        .ayah-menu-content button {
+        width: 100%;
+        padding: 8px 12px;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        }
+
+        .ayah-menu-content button:hover {
+        background-color: #f0f0f0;
+        }
+
+        .ayah-menu:hover .ayah-menu-content {
+        display: block;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Search overlay untuk menutupi seluruh halaman saat search aktif -->
+    <div class="search-overlay" id="searchOverlay" onclick="toggleSearch(true)"></div>
+
+    <div class="top-container hide-on-search">
+        <div class="search-container">
+            <div class="search-icon" onclick="toggleSearch()">🔍</div>
+            <div class="dark-mode-icon" onclick="toggleDarkMode()">🌙</div>
+        </div>
+
+        <!-- Tombol + dan ? di tengah bagian atas -->
+        <div class="top-center-buttons">
+            <div class="button" id="previousButton" onclick="previousFunction()"> <!-- Tombol sebelemnya-->
+                <i class="fa fa-angle-left fa-lg" aria-hidden="true">  
+                </i>sebelumnya
+            </div>
+            <div class="button2" id="nextButton" onclick="nextFunction()"> <!-- Tombol setelahnya -->
+                selanjutnya <i class="fa fa-angle-right fa-lg" aria-hidden="true"></i>
+            </div> 
+        </div>
+
+        <!-- Tombol - dan = di bawah tombol + dan ? -->
+        <div class="bottom-center-buttons">
+            <div class="dropdown-container">
+                <!-- Dropdown untuk Al-Fatihah yang menampilkan semua surat -->
+                <div id="surahDropdown" class="dropdown">
+                    <button id="surahDropbtn" class="dropbtn" onclick="toggleDropdown('surahDropdownContent')">
+                        <!-- Tidak ada teks default -->
+                         Pilih Surah
+                         <span class="icon-stack" style="float: right;">
+                            <i class="fa fa-angle-up" aria-hidden="true"></i>
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <ul id="surahDropdownContent" class="dropdown-content" style="max-height: 300px; overflow-y: auto;">
+                        <div id="surah-list">
+                            <!-- JS akan isi daftar -->
+                        </div> 
+                    </ul>
+                </div>
+
+                <!-- Kotak Dropdown ayat  -->
+                <div id="ayatDropdown" class="dropdown">
+                    <button id="ayahDropbtn" class="dropbtn" onclick="toggleDropdown('ayahDropdownContent')">
+                        Pilih Ayat
+                        <span class="icon-stack" style="float: right;">
+                            <i class="fa fa-angle-up" aria-hidden="true"></i>
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <ul id="ayahDropdownContent" class="dropdown-content" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Otomatis diisi lewat JS -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ikon Pengaturan di kanan atas -->
+        <!-- Tombol Pengaturan -->
+        <div class="overlay" id="settingsOverlay" onclick="toggleSettings()"></div>
+        <!-- Tombol Pengaturan -->
+        <button class="settings-button" onclick="toggleSettings()">
+            <i class="fa fa-gear"></i> Pengaturan
+        </button>
+        <!-- Panel Pengaturan -->
+        <div class="settings-panel" id="settingsPanel">
+            <h3>Pengaturan</h3>
+            <!-- Ukuran Font -->
+            <div class="settings-item">
+                <label for="fontSizeSlider">Ukuran Font</label>
+                <input type="range" id="fontSizeSlider" value="16" min="10" max="30" oninput="updateFontSize(this.value)">
+            </div>
+            <!-- Quran Tajweed -->
+            <div class="settings-item">
+                <label>Quran Tajweed</label>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- Quran Isyarat -->
+            <div class="settings-item">
+                <label>Quran Isyarat</label>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- Transliterasi (Latin) -->
+            <div class="settings-item">
+                <label>Transliterasi (Latin)</label>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- Terjemahan Bahasa -->
+            <div class="settings-item">
+                <label>Terjemahan Bahasa</label>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <!-- Pilih Bahasa -->
+            <div class="settings-item vertical">
+                <label>Pilih Bahasa Terjemah</label>
+                <div class="lang-options">
+                    <button onclick="selectLang(this)">ID</button>
+                    <button onclick="selectLang(this)">EN</button>
+                    <button onclick="selectLang(this)">MY</button>
+                    <button onclick="selectLang(this)">FR</button>
+                    <button onclick="selectLang(this)">DE</button>
+                    <button onclick="selectLang(this)">TR</button>
+                </div>
+            </div>
+            <!-- Pilih Qori -->
+            <div class="settings-item vertical">
+                <label for="qoriSelect">Pilih Qori</label>
+                <select id="qoriSelect">
+                    <option>Abdul Basit</option>
+                    <option>Al Husary</option>
+                    <option>Al Minshawi Mujawwad</option>
+                    <option>Ali bin Abdurrahman al-Hudzaifi</option>
+                    <option>Aziz Alili</option>
+                    <option>Mishari Alafasy</option>
+                    <option>Saad Al Ghamidi</option>
+                    <option>Saud Asy-Syuraim</option>
+                </select>
+            </div>
+        </div>
+    </div>   
+    
+    <!-- Kolom pencarian yang akan muncul dengan tampilan yang lebih menarik -->
+    <div class="search-box" id="searchBox">
+        <button onclick="toggleSearch(true)">×</button>
+        <h2>🔍 Pencarian</h2>
+        <input type="text" id="searchInput" placeholder="Ketik kata yang ingin dicari..." onkeydown="searchOnEnter(event)" oninput="clearNotFoundMessage()">
+        <div class="history-container" id="historyContainer">
+            <h3>📝 Riwayat Pencarian</h3>
+            <ul id="historyList">
+                <!-- Riwayat pencarian akan ditampilkan di sini -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="content hide-on-search" id="content">
+        <!-- Konten surat akan dirender secara dinamis oleh JavaScript -->
+        <h2>Surat Al-Fatihah</h2>
+        <!-- Ayat-ayat akan muncul di sini saat dropdown surat dipilih -->
+    </div>
+    
+    <!-- Pop-up alert -->
+    <div id="popup" class="popup">
+        Maaf, yang Anda cari tidak ada.
+    </div>
+    <div id="audio-player-bar" style="position:fixed; bottom:0; left:0; right:0; background:#f1f1f1; padding:10px; display:none; align-items:center; justify-content:space-between; border-top:1px solid #ccc; z-index:1000;">
+        <span id="audio-playing-label">🔊 Memutar audio...</span>
+        <div>
+          <button onclick="pauseAudio()">⏸️</button>
+          <button onclick="resumeAudio()">▶️</button>
+          <button onclick="stopAudio()">❌</button>
+        </div>
+      </div>
+    
+    <script>
+    // ==================== GLOBAL VARIABLES ====================
+    
+    let searchHistory = [];
+    let currentDropdownIndex = -1; // -1 artinya belum memilih
+    let dropdownItems = []; // akan diisi saat dokumen siap
+    let currentSurah = null;
+    let currentAyah = null;
+    let isSearchMode = false;
+    let currentSurahIndex = 0; // Menyimpan index surat yang sedang dipilih
+    let currentAudio = null;
+    let isPaused = false;
+    let currentAyatIndex = 0;
+    let currentLang = 'id';
+    let showLatin = true;
+    let showTranslation = true;
+
+
+
+
+    const surahData = [
+  {
+    aya: 1,
+    nomor: "001001",
+    arab: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    latin: "Bismillāhir-raḥmānir-raḥīm",
+    id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
+    en: "In the name of Allah—the Most Compassionate, Most Merciful.",
+    my: "Dengan nama Allah Yang Maha Pemurah, Maha Penyayang.",
+    fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux.",
+    de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.",
+    tr: "Rahmân ve Rahîm olan Allah'ın adıyla.",
+  },
+  {
+    aya: 2,
+    nomor: "001002",
+    arab: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+    latin: "Al-ḥamdu lillāhi rabbil-‘ālamīn",
+    id: "Segala puji bagi Allah, Tuhan seluruh alam.",
+    en: "All praise is for Allah—Lord of all worlds,",
+    my: "Segala puji bagi Allah, Tuhan sekalian alam.",
+    fr: "Louange à Allah, Seigneur de l’univers.",
+    de: "Alles Lob gebührt Allah, dem Herrn der Welten.",
+    tr: "Hamd, âlemlerin Rabbi Allah'a mahsustur.",
+  },
+  {
+    aya: 3,
+    nomor: "001003",
+    arab: "الرَّحْمَٰنِ الرَّحِيمِ",
+    latin: "Ar-raḥmānir-raḥīm",
+    id: "Yang Maha Pengasih, Maha Penyayang,",
+    en: "the Most Compassionate, Most Merciful,",
+    my: "Yang Maha Pemurah, Maha Penyayang,",
+    fr: "Le Tout Miséricordieux, le Très Miséricordieux,",
+    de: "Dem Allerbarmherzigen, dem Barmherzigen,",
+    tr: "O, Rahmân ve Rahîm'dir.",
+  },
+  {
+    aya: 4,
+    nomor: "001004",
+    arab: "مَالِكِ يَوْمِ الدِّينِ",
+    latin: "Māliki yaumid-dīn",
+    id: "Penguasa di Hari Pembalasan.",
+    en: "Master of the Day of Judgment.",
+    my: "Yang Menguasai Hari Pembalasan.",
+    fr: "Maître du Jour de la rétribution.",
+    de: "Dem Herrscher am Tag des Gerichts.",
+    tr: "Din gününün mâlikidir.",
+  },
+  {
+    aya: 5,
+    nomor: "001005",
+    arab: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+    latin: "Iyyāka na‘budu wa iyyāka nasta‘īn",
+    id: "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami mohon pertolongan.",
+    en: "You ˹alone˺ we worship and You ˹alone˺ we ask for help.",
+    my: "Engkaulah yang kami sembah dan kepada Engkaulah kami mohon pertolongan.",
+    fr: "C’est Toi ˹Seul˺ que nous adorons, et c’est Toi ˹Seul˺ dont nous implorons l’aide.",
+    de: "Dir allein dienen wir, und Dich allein bitten wir um Hilfe.",
+    tr: "Yalnız Sana kulluk ederiz ve yalnız Senden yardım dileriz.",
+  },
+  {
+    aya: 6,
+    nomor: "001006",
+    arab: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+    latin: "Ihdinaṣ-ṣirāṭal-mustaqīm",
+    id: "Tunjukilah kami jalan yang lurus,",
+    en: "Guide us along the Straight Path,",
+    my: "Tunjukkanlah kami jalan yang lurus,",
+    fr: "Guide-nous dans le droit chemin,",
+    de: "Führe uns den geraden Weg,",
+    tr: "Bizi dosdoğru yola ilet.",
+  },
+  {
+    aya: 7,
+    nomor: "001007",
+    arab: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+    latin: "Ṣirāṭallażīna an‘amta ‘alaihim gairil-magḍūbi ‘alaihim wa laḍ-ḍāllīn",
+    id: "(yaitu) jalan orang-orang yang telah Engkau beri nikmat, bukan (jalan) mereka yang dimurkai, dan bukan (pula jalan) mereka yang sesat.",
+    en: "the Path of those You have blessed—not those You are displeased with, or those who are astray.",
+    my: "(Iaitu) jalan orang-orang yang Engkau telah beri nikmat kepada mereka; bukan (jalan) mereka yang dimurkai dan bukan pula (jalan) mereka yang sesat.",
+    fr: "le chemin de ceux que Tu as comblés de faveurs, non pas de ceux qui ont encouru Ta colère, ni des égarés.",
+    de: "Den Weg derer, denen Du Gnade erwiesen hast – nicht derer, die den Zorn erregt haben, und nicht der Irregehenden.",
+    tr: "Kendilerine nimet verdiklerinin yoluna; gazaba uğramışların ve sapmışlarınkine değil.",
+  }
+];
+
+    // Data jumlah ayat tiap surah
+    const ayatCountPerSurah = {
+    1: 7, 2: 286, 3: 200, 4: 176, 5: 120, 6: 165, 7: 206, 8: 75, 9: 129, 10: 109,
+    11: 123, 12: 111, 13: 43, 14: 52, 15: 99, 16: 128, 17: 111, 18: 110, 19: 98,
+    20: 135, 21: 112, 22: 78, 23: 118, 24: 64, 25: 77, 26: 227, 27: 93, 28: 88,
+    29: 69, 30: 60, 31: 34, 32: 30, 33: 73, 34: 54, 35: 45, 36: 83, 37: 182,
+    38: 88, 39: 75, 40: 85, 41: 54, 42: 53, 43: 89, 44: 59, 45: 37, 46: 35,
+    47: 38, 48: 29, 49: 18, 50: 45, 51: 60, 52: 49, 53: 62, 54: 55, 55: 78,
+    56: 96, 57: 29, 58: 22, 59: 24, 60: 13, 61: 14, 62: 11, 63: 11, 64: 18,
+    65: 12, 66: 12, 67: 30, 68: 52, 69: 52, 70: 44, 71: 28, 72: 28, 73: 20,
+    74: 56, 75: 40, 76: 31, 77: 50, 78: 40, 79: 46, 80: 42, 81: 29, 82: 19,
+    83: 36, 84: 25, 85: 22, 86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15,
+    92: 21, 93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8, 100: 11,
+    101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4, 107: 7, 108: 3,
+    109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6
+    };
+
+    // data daftar surat 
+    const surahNames = [
+    "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah",
+    "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus",
+    "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'",
+    "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun",
+    "An-Nur", "Al-Furqan", "Asy-Syu'ara'", "An-Naml", "Al-Qashash",
+    "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'",
+    "Fatir", "Ya-Sin", "Ash-Shaffat", "Shad", "Az-Zumar", "Ghafir",
+    "Fushshilat", "Asy-Syura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jatsiyah",
+    "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Adz-Dzariyat",
+    "At-Thur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid",
+    "Al-Mujadilah", "Al-Hasyr", "Al-Mumtahanah", "Ash-Shaff", "Al-Jumu'ah",
+    "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk",
+    "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil",
+    "Al-Muddatstsir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'",
+    "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infithar", "Al-Muthaffifin",
+    "Al-Insyiqaq", "Al-Buruj", "At-Thariq", "Al-A'la", "Al-Ghasyiyah",
+    "Al-Fajr", "Al-Balad", "Asy-Syams", "Al-Lail", "Ad-Dhuha", "Al-Insyirah",
+    "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah",
+    "Al-'Adiyat", "Al-Qari'ah", "At-Takatsur", "Al-'Ashr", "Al-Humazah",
+    "Al-Fil", "Quraisy", "Al-Ma'un", "Al-Kautsar", "Al-Kafirun", "An-Nasr",
+    "Al-Lahab", "Al-Ikhlas", "Al-Falaq", "An-Nas"
+    ];
+
+
+    // ==================== INITIALIZATION ====================
+    // Inisialisasi riwayat pencarian saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        updateSearchHistory();
+        // Inisialisasi tombol navigasi
+        updateNavigationButtons(currentSurahIndex);
+    });
+
+    // Load riwayat pencarian dari localStorage saat halaman dimuat
+    window.onload = function() {
+    const savedHistory = localStorage.getItem('searchHistory');
+    if (savedHistory) {
+        searchHistory = JSON.parse(savedHistory);
+        updateSearchHistory();
+    }
+
+    // Inisialisasi tombol navigasi saat halaman dimuat
+    updateNavigationButtons(currentSurahIndex);
+    };
+
+    function initializePage() {
+        try {
+            loadSearchHistory();
+            initializeSurahList();
+            updateNavigationButtons(currentSurahIndex);
+            setupEventListeners();
+            console.log('Page initialized successfully');
+        } catch (error) {
+            console.error('Error initializing page:', error);
+        }
+    }
+
+
+
+
+ // ==================== audio & quran data MANAGEMENT ====================
+// Render semua ayat dari data
+function renderSurah() {
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+
+    // Tombol Play semua ayat
+    const playAllBtn = document.createElement('button');
+    playAllBtn.textContent = '▶️ Putar Semua Ayat';
+    playAllBtn.onclick = () => playSurahFrom(0);
+    content.appendChild(playAllBtn);
+
+    // Render setiap ayat
+    surahData.forEach((ayah, index) => {
+        const div = document.createElement('div');
+        div.className = 'quran-ayah';
+        div.id = `ayah-${ayah.aya}`;
+
+        const menuWrapper = document.createElement('div');
+        menuWrapper.className = 'ayah-menu';
+
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'menu-trigger';
+        menuBtn.textContent = '⋮';
+        menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.ayah-menu-content').forEach(el => el.classList.remove('show'));
+        menuContent.classList.toggle('show');
+        };
+
+        const menuContent = document.createElement('div');
+        menuContent.className = 'ayah-menu-content';
+
+        // Menu item helper
+        function createMenuItem(icon, label, onClick) {
+        const btn = document.createElement('button');
+        btn.onclick = onClick;
+        const iconSpan = document.createElement('span');
+        iconSpan.textContent = icon;
+        const textSpan = document.createElement('span');
+        textSpan.textContent = label;
+        btn.appendChild(iconSpan);
+        btn.appendChild(textSpan);
+        return btn;
+        }
+
+        // Isi menu
+        
+        const btnPlay = document.createElement('button');
+        btnPlay.textContent = '▶️ Putar ayat';
+        btnPlay.onclick = () => playAudio(index);
+
+        const btnLastRead = document.createElement('button');
+        btnLastRead.textContent = '🔖 Tandai terakhir baca';
+        btnLastRead.onclick = () => {
+        localStorage.setItem('lastRead', surahData[index].aya);
+        alert(`Ayat ${surahData[index].aya} ditandai sebagai terakhir dibaca.`);
+        };
+
+        const btnBookmark = document.createElement('button');
+        btnBookmark.textContent = '📌 Simpan ke bookmark';
+        btnBookmark.onclick = () => {
+        alert(`Bookmark ayat ${surahData[index].aya} (fitur bisa disambung ke DB nanti).`);
+        };
+
+        const btnTafsir = document.createElement('button');
+        btnTafsir.textContent = '📖 Lihat tafsir';
+        btnTafsir.onclick = () => {
+        alert(`Tafsir ayat ${surahData[index].aya} akan ditampilkan (belum terhubung).`);
+        };
+
+        const arab = document.createElement('div');
+        arab.className = 'arab';
+        arab.style.fontSize = '28px';
+        arab.textContent = ayah.arab;
+
+        const latin = document.createElement('div');
+        latin.className = 'latin';
+        latin.textContent = ayah.latin;
+        latin.style.display = showLatin ? 'block' : 'none';
+
+        const translation = document.createElement('div');
+        translation.className = 'translation';
+        translation.textContent = ayah[currentLang] || ayah.id;
+        translation.style.display = showTranslation ? 'block' : 'none';
+
+        // Gabungkan menu
+        menuContent.appendChild(btnPlay);
+        menuContent.appendChild(btnLastRead);
+        menuContent.appendChild(btnBookmark);
+        menuContent.appendChild(btnTafsir);
+        menuWrapper.appendChild(menuBtn);
+        menuWrapper.appendChild(menuContent);
+        div.appendChild(menuWrapper); // ➜ letakkan paling atas dalam ayat
+        div.appendChild(arab);
+        div.appendChild(latin);
+        div.appendChild(translation);
+        content.appendChild(div);
+    });
+}
+
+// Fungsi Play satu ayat
+function playAudio(index) {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+        showAudioBar(`Memutar ayat ${surahData[index].aya}`);
+    }
+
+    const ayat = surahData[index];
+    currentAudio = new Audio(`https://verses.quran.com/AbdulBaset/Mujawwad/mp3/${ayat.nomor}.mp3`);
+    highlightPlaying(index); // ➜ Tambahkan ini
+
+    currentAudio.play().then(() => {
+        isPaused = false;
+        currentAudio.onended = () => {
+            if (index + 1 < surahData.length) {
+                playAudio(index + 1); // lanjut ke ayat berikutnya
+            }
+        };
+    }).catch(err => {
+        alert("Klik diperlukan untuk memutar audio karena aturan browser.");
+        console.error(err);
+    });
+
+    currentAyatIndex = index;
+}
+
+
+// Fungsi Play semua ayat (berurutan)
+function playSurahFrom(startIndex = 0) {
+    if (startIndex >= surahData.length) return;
+    showAudioBar("Memutar seluruh surat...");
+
+    const ayah = surahData[startIndex];
+    currentAudio = new Audio(`https://verses.quran.com/AbdulBaset/Mujawwad/mp3/${ayah.nomor}.mp3`);
+    highlightPlaying(startIndex); // ➜ Tambahkan ini
+
+    currentAudio.play().then(() => {
+        isPaused = false;
+        currentAudio.onended = () => playSurahFrom(startIndex + 1);
+    }).catch(err => {
+        alert("⚠️ Gagal memutar audio. Silakan klik tombol secara manual terlebih dahulu agar browser mengizinkan.");
+        console.error(err);
+    });
+
+    currentAyatIndex = startIndex;
+}
+
+// Fungsi Pause audio
+function pauseAudio() {
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        isPaused = true;
+    }
+}
+
+// Fungsi Resume audio
+function resumeAudio() {
+    if (currentAudio && isPaused) {
+        currentAudio.play();
+        isPaused = false;
+    }
+}
+
+// Fungsi stop audio
+function stopAudio() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+  hideAudioBar();
+  document.querySelectorAll('.quran-ayah').forEach(el => el.classList.remove('playing'));
+}
+
+
+// Pemanggilan awal saat surat dipilih
+loadSurah = function(surahNumber) {
+    if (surahNumber === 1) { // Hanya render untuk Al-Fatihah
+        renderSurah();
+        populateAyahDropdown(surahNumber); // Tetap update dropdown ayat
+    }
+};
+
+// Integrasi dengan pengaturan
+document.getElementById('qoriSelect')?.addEventListener('change', (e) => {
+    // jika ingin ganti qori nanti, bisa dimasukkan logika ganti link audio di sini
+});
+
+function selectLang(button) {
+    document.querySelectorAll('.lang-options button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    currentLang = button.textContent.toLowerCase();
+    renderSurah();
+}
+
+// Checkbox transliterasi & terjemahan
+document.querySelectorAll('.settings-panel .switch input').forEach((el, i) => {
+    el.addEventListener('change', () => {
+        showLatin = document.querySelectorAll('.settings-panel .switch input')[2].checked;
+        showTranslation = document.querySelectorAll('.settings-panel .switch input')[3].checked;
+        renderSurah();
+    });
+});
+
+// highlight playing
+function highlightPlaying(index) {
+  document.querySelectorAll('.quran-ayah').forEach(el => {
+    el.classList.remove('playing');
+  });
+  const active = document.getElementById(`ayah-${surahData[index].aya}`);
+  if (active) {
+    active.classList.add('playing');
+    active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function showAudioBar(text = "Memutar audio...") {
+  document.getElementById('audio-playing-label').textContent = "🔊 " + text;
+  document.getElementById('audio-player-bar').style.display = 'flex';
+}
+
+function hideAudioBar() {
+  document.getElementById('audio-player-bar').style.display = 'none';
+}
+
+
+
+
+
+
+    // ==================== SURAH & AYAH MANAGEMENT ====================
+    // scrpit unutk ayat
+    function populateAyahDropdown(totalAyat, selectedAyat = null) {
+    const ayahDropdown = document.getElementById("ayahDropdownContent");
+    const ayahDropbtn = document.getElementById('ayahDropbtn');
+    ayahDropdown.innerHTML = ""; // Clear dulu
+
+    for (let i = 1; i <= totalAyat; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = `${i} <span class="check-icon" style="display:none;"><i class="fa fa-check" aria-hidden="true"></i></span>`;
+        li.setAttribute("data-ayah", i);
+
+        // Jika ini ayat yang sedang dipilih, tandai dengan centang dan style selected
+        if (i === selectedAyat) {
+            li.classList.add('selected-padding');
+            li.querySelector('.check-icon').style.display = 'inline';
+        }
+
+        li.onclick = function () {
+            
+            highlightPadding(this); // Fungsi yang memberi highlight background
+
+            // Hapus 'selected' dari semua ayat
+            const allAyat = ayahDropdown.querySelectorAll("li");
+            allAyat.forEach(el => {
+                el.classList.remove('selected-padding');
+                const icon = el.querySelector('.check-icon');
+                if (icon) icon.style.display = 'none';
+            });
+
+            // Tambahkan ke yang terpilih
+            this.classList.add('selected-padding');
+            const icon = this.querySelector('.check-icon');
+            if (icon) icon.style.display = 'inline';
+
+            // Update tombol dropdown ayat
+            ayahDropbtn.innerHTML = `Ayat ${i} <span class="icon-stack" style="float: right;">
+                <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i></span>`;
+                
+                ayahDropbtn.classList.add("selected");
+                ayahDropdown.classList.remove("show");
+
+            scrollToAyah(i);
+        };
+        ayahDropdown.appendChild(li);
+    }
+}
+
+// scrpit unutk ayat
+
+    const listContainer = document.getElementById("surah-list");
+
+    surahNames.forEach((name, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${name} <span class="check-icon"><i class="fa fa-check" aria-hidden="true"></i></span>`;
+        li.setAttribute("data-surah-index", index + 1); // Bisa digunakan nanti
+        li.onclick = function () {
+            highlightPadding(this);
+
+            // Update currentSurahIndex
+        currentSurahIndex = index + 1;
+        
+        // Update tombol navigasi
+        updateNavigationButtons(currentSurahIndex);
+
+            loadSurah(index + 1); // Jika kamu punya fungsi untuk load surah berdasarkan nomor
+        };
+        listContainer.appendChild(li);
+    });
+
+function toggleDropdown(id) {
+    // Sembunyikan semua dropdown terlebih dahulu
+    const dropdownContent = document.getElementById(dropdownId);
+    dropdownContent.classList.toggle('show');
+}
+
+function populateAyahDropdown(surahNumber, selectedAyah = null) {
+    const ayahDropdown = document.getElementById('ayahDropdownContent');
+    const ayahDropbtn = document.getElementById('ayahDropbtn');
+    ayahDropdown.innerHTML = '';
+
+    const totalAyat = ayatCountPerSurah[surahNumber] || 1;
+
+    for (let i = 1; i <= totalAyat; i++) {
+        const li = document.createElement('li');
+        li.innerHTML = `${i} <span class="check-icon"><i class="fa fa-check" aria-hidden="true"></i></span>`;
+        if (i === selectedAyah) {
+            li.classList.add('selected-padding');
+            li.querySelector('.check-icon').style.display = 'inline';
+        }
+        li.onclick = function () {
+            ayahDropdown.querySelectorAll('li').forEach(item => {
+                item.classList.remove('selected-padding');
+                const icon = item.querySelector('.check-icon');
+                if (icon) icon.style.display = 'none';
+            });
+            this.classList.add('selected-padding');
+            const icon = this.querySelector('.check-icon');
+            if (icon) icon.style.display = 'inline';
+            ayahDropbtn.innerHTML = i + `
+              <span class="icon-stack" style="float: right;">
+                <i class="fa fa-angle-up"></i><i class="fa fa-angle-down"></i>
+              </span>`;
+              ayahDropdown.classList.remove('show');
+            scrollToAyah(i);
+        };
+        ayahDropdown.appendChild(li);
+    }
+}
+
+// Fungsi loadSurah yang belum ada - silakan sesuaikan dengan implementasi Anda
+function loadSurah(surahNumber) {
+    // Implementasi untuk memuat surah berdasarkan nomor
+    console.log(`Loading surah ${surahNumber}: ${surahNames[surahNumber - 1]}`);
+    // Tambahkan kode untuk memuat konten surah di sini
+}
+
+
+
+    // ==================== NAVIGATION ====================
+    // Fungsi untuk memperbarui teks tombol navigasi berdasarkan surah yang dipilih
+function updateNavigationButtons(selectedSurahIndex) {
+    const prevButton = document.getElementById('previousButton'); 
+    const nextButton = document.getElementById('nextButton'); 
+    
+    // Update tombol sebelumnya
+    if (prevButton) {
+        if (selectedSurahIndex > 1) {
+            const prevSurahName = surahNames[selectedSurahIndex - 2]; // -2 karena array dimulai dari 0
+            prevButton.innerHTML = `<i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>${prevSurahName}`;
+            prevButton.style.opacity = '1';
+            prevButton.style.pointerEvents = 'auto';
+        } else {
+            prevButton.innerHTML = '<i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>sebelumnya';
+            prevButton.style.opacity = '0.5';
+            prevButton.style.pointerEvents = 'none'; // Nonaktifkan jika sudah di surah pertama
+        }
+    }
+    
+    // Update tombol sesudahnya
+    if (nextButton) {
+        if (selectedSurahIndex < surahNames.length) {
+            const nextSurahName = surahNames[selectedSurahIndex]; // index karena array dimulai dari 0
+            nextButton.innerHTML = `${nextSurahName} <i class="fa fa-angle-right fa-lg" aria-hidden="true"></i>`;
+            nextButton.style.opacity = '1';
+            nextButton.style.pointerEvents = 'auto';
+        } else {
+            nextButton.innerHTML = 'selanjutnya <i class="fa fa-angle-right fa-lg" aria-hidden="true"></i>';
+            nextButton.style.opacity = '0.5';
+            nextButton.style.pointerEvents = 'none'; // Nonaktifkan jika sudah di surah terakhir
+        }
+    }
+}
+
+// Fungsi untuk tombol sebelumnya (◁) - sekarang navigasi surah
+function previousFunction() {
+    if (isSearchMode) return; // Jangan jalankan jika sedang dalam mode search
+    
+    if (currentSurahIndex > 1) {
+        currentSurahIndex--;
+        
+        // Simulasi klik pada surah sebelumnya di dropdown
+        const surahItems = document.querySelectorAll('#surah-list li');
+        if (surahItems[currentSurahIndex - 1]) {
+            highlightPadding(surahItems[currentSurahIndex - 1]);
+            loadSurah(currentSurahIndex); // Load surah baru
+        }
+    }
+}
+
+// Fungsi untuk tombol sesudahnya (▷) - sekarang navigasi surah
+function nextFunction() {
+    if (isSearchMode) return; // Jangan jalankan jika sedang dalam mode search
+    
+    if (currentSurahIndex < surahNames.length) {
+        currentSurahIndex++;
+        
+        // Simulasi klik pada surah sesudahnya di dropdown
+        const surahItems = document.querySelectorAll('#surah-list li');
+        if (surahItems[currentSurahIndex - 1]) {
+            highlightPadding(surahItems[currentSurahIndex - 1]);
+            loadSurah(currentSurahIndex); // Load surah baru
+        }
+    }
+}
+
+
+
+
+    // ==================== DROPDOWN MANAGEMENT ====================
+// Fungsi untuk toggle dropdown
+function toggleDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    const isVisible = dropdown.classList.contains('show');
+
+    // Sembunyikan semua dropdown dulu
+    document.querySelectorAll('.dropdown-content').forEach(el => el.classList.remove('show'));
+
+    // Jika sebelumnya tidak terbuka, baru tampilkan
+    if (!isVisible) {
+        dropdown.classList.add('show');
+    }
+}
+
+// Fungsi untuk menandai padding yang diklik dengan warna hijau dan menambahkan ikon check
+function highlightPadding(element) {
+    // Hapus kelas 'selected-padding' dan sembunyikan semua ikon check
+    const allItems = document.querySelectorAll('.dropdown-content li');
+    allItems.forEach(item => {
+        item.classList.remove('selected-padding');
+        const icon = item.querySelector('.check-icon');
+        if (icon) icon.style.display = 'none';
+    });
+
+    // Tambahkan kelas 'selected-padding' dan tampilkan ikon check pada item yang diklik
+    element.classList.add('selected-padding');
+    const selectedIcon = element.querySelector('.check-icon');
+    if (selectedIcon) selectedIcon.style.display = 'inline';
+
+    const surahIndex = Array.from(element.parentElement.children).indexOf(element) + 1;
+
+    // Update currentSurahIndex
+    currentSurahIndex = surahIndex;
+    
+    // Update tombol navigasi
+    updateNavigationButtons(currentSurahIndex);
+
+    // Panggil populateAyahDropdown dan kirim currentAyah agar centang tetap muncul
+    populateAyahDropdown(surahIndex, currentAyah);
+    
+    // Atur isi tombol dropdown menjadi teks yang dipilih
+    const dropbtn = element.closest(".dropdown").querySelector(".dropbtn");
+    dropbtn.innerHTML = element.textContent.trim() + `
+        <span class="icon-stack" style="float: right;">
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </span>`;
+
+// ✅ Sembunyikan dropdown setelah item dipilih
+    element.closest(".dropdown").querySelector(".dropdown-content").classList.remove("show");
+
+// ✅ Update index pilihan saat ini
+currentDropdownIndex = dropdownItems.indexOf(element);
+}
+
+
+
+
+// ==================== SEARCH FUNCTIONALITY ====================
+// Fungsi utama untuk toggle search dengan mode khusus
+function toggleSearch(forceClose = false) {
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchBox = document.getElementById('searchBox');
+    const historyContainer = document.getElementById('historyContainer');
+    const hideElements = document.querySelectorAll('.hide-on-search');
+
+    const isVisible = searchBox.style.display === 'flex';
+
+    if (isVisible || forceClose) {
+        // Tutup mode search
+        isSearchMode = false;
+        searchOverlay.style.display = 'none';
+        searchBox.style.display = 'none';
+        historyContainer.style.display = 'none';
+        
+        // Tampilkan kembali semua elemen
+        hideElements.forEach(element => {
+            element.classList.remove('hidden');
+        });
+        
+        // Clear input
+        document.getElementById('searchInput').value = '';
+    } else {
+        // Buka mode search
+        isSearchMode = true;
+        searchOverlay.style.display = 'block';
+        searchBox.style.display = 'flex';
+        historyContainer.style.display = 'block';
+        
+        // Sembunyikan semua elemen lain
+        hideElements.forEach(element => {
+            element.classList.add('hidden');
+        });
+        
+        // Focus pada input
+        setTimeout(() => {
+            document.getElementById('searchInput').focus();
+        }, 100);
+    }
+}
+
+// Fungsi untuk pencarian saat menekan tombol Enter
+function searchOnEnter(event) {
+    if (event.key === 'Enter') {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+
+        // Implementasi pencarian di sini
+        toggleSearch(true); // Tutup kotak pencarian saat menekan Enter
+        
+        if (searchValue === '') {
+            return;
+        }
+        
+        const contentElements = document.querySelectorAll('.content p');
+
+        let found = false;
+        contentElements.forEach((element) => {
+            if (element.innerText.toLowerCase().includes(searchValue)) {
+                // Tutup search mode terlebih dahulu
+                toggleSearch(true);
+                
+                // Kemudian scroll ke elemen
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Highlight hasil pencarian
+                    element.style.backgroundColor = '#ffff99';
+                    element.style.transition = 'background-color 0.5s ease';
+                    
+                    setTimeout(() => {
+                        element.style.backgroundColor = '';
+                    }, 2000);
+                }, 300);
+                
+                found = true;
+            }
+        });
+
+        if (!found) {
+            showPopup();
+        }
+
+        // Tambahkan ke riwayat
+        addSearchHistory(searchValue);
+    }
+}
+
+// Mengupdate tampilan riwayat pencarian
+function updateSearchHistory() {
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = '';
+    
+    if (searchHistory.length === 0) {
+        const emptyItem = document.createElement('li');
+        emptyItem.textContent = 'Belum ada riwayat pencarian';
+        emptyItem.style.color = '#999';
+        emptyItem.style.fontStyle = 'italic';
+        historyList.appendChild(emptyItem);
+        return;
+    }
+    
+    searchHistory.slice().reverse().forEach(function(item) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `🔍 ${item}`;
+        listItem.onclick = function() {
+            document.getElementById('searchInput').value = item;
+            searchOnEnter({ key: 'Enter' });
+        };
+        historyList.appendChild(listItem);
+    });
+}
+
+// Menambahkan pencarian ke riwayat
+function addSearchHistory(searchValue) {
+    if (searchHistory.indexOf(searchValue) === -1 && searchValue !== '') {
+        searchHistory.push(searchValue);
+        // Batasi history maksimal 10 item
+        if (searchHistory.length > 10) {
+            searchHistory.shift();
+        }
+        updateSearchHistory();
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    }
+}
+
+// Clear message function
+function clearNotFoundMessage() {
+    // Fungsi ini bisa digunakan untuk membersihkan pesan error jika diperlukan
+}
+
+
+
+
+// ==================== UTILITY FUNCTIONS ====================
+function scrollToAyah(ayahNumber) {
+    const target = document.getElementById(`ayah-${ayahNumber}`);
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// Fungsi untuk menampilkan pop-up jika pencarian tidak ditemukan
+function showPopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 2000);
+}
+
+
+
+
+// ==================== SETTINGS ====================
+// tombol pengaturan
+function toggleSettings() {
+    if (isSearchMode) return; // Jangan buka settings jika sedang dalam mode search
+    
+    const panel = document.getElementById('settingsPanel');
+    const overlay = document.getElementById('settingsOverlay');
+    const isVisible = panel.style.display === 'block';
+    panel.style.display = isVisible ? 'none' : 'block';
+    overlay.style.display = isVisible ? 'none' : 'block';
+}
+
+// Fungsi untuk memperbarui ukuran font
+function updateFontSize(size) {
+  document.querySelectorAll('.arab').forEach(el => {
+    el.style.fontSize = `${size * 1.6}px`; // Arab lebih besar
+  });
+  document.querySelectorAll('.latin').forEach(el => {
+    el.style.fontSize = `${size}px`;
+  });
+  document.querySelectorAll('.translation').forEach(el => {
+    el.style.fontSize = `${size}px`;
+  });
+}
+
+// Fungsi untuk memilih bahasa
+function selectLang(button) {
+    document.querySelectorAll('.lang-options button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+}
+
+// Fungsi untuk toggle antara dark mode dan light mode
+function toggleDarkMode() {
+    const darkModeIcon = document.querySelector('.dark-mode-icon');
+    document.body.classList.toggle('dark-mode');
+    
+    if (document.body.classList.contains('dark-mode')) {
+        darkModeIcon.innerHTML = '🌞';
+    } else {
+        darkModeIcon.innerHTML = '🌙';
+    }
+}
+
+
+
+
+// ==================== EVENT LISTENERS ====================
+
+// Event listener untuk Ctrl + F dan ESC
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'f') {
+        event.preventDefault();
+        toggleSearch();
+    }
+    
+    if (event.key === 'Escape' && isSearchMode) {
+        toggleSearch(true);
+    }
+});
+
+// Tutup pengaturan jika klik di luar panel dan tombol
+document.addEventListener('click', function (event) {
+    if (isSearchMode) return; // Jangan jalankan jika sedang dalam mode search
+    
+    const panel = document.getElementById('settingsPanel');
+    const overlay = document.getElementById('settingsOverlay');
+    const surahDropdown = document.getElementById('surahDropdown');
+    const ayatDropdown = document.getElementById('ayatDropdown');
+    const surahContent = document.getElementById('surahDropdownContent');
+    const ayatContent = document.getElementById('ayahDropdownContent');
+    const button = document.querySelector('.settings-button');
+
+    // Tutup dropdown jika klik di luar area surah
+    if (!surahDropdown.contains(event.target)) {
+        surahContent.classList.remove('show');
+    }
+
+    // Tutup dropdown jika klik di luar area ayat
+    if (!ayatDropdown.contains(event.target)) {
+        ayatContent.classList.remove('show');
+    }
+
+    // Tutup panel pengaturan jika klik di luar panel dan tombol
+    if (
+        panel.style.display === 'block' &&
+        !panel.contains(event.target) &&
+        !button.contains(event.target)
+    ) {
+        panel.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.ayah-menu-content').forEach(el => el.classList.remove('show'));
+});
+
+
+
+</script>
+
+</body>
+</html>
