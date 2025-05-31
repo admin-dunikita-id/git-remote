@@ -813,6 +813,355 @@
             display: block;
         }
 
+        .mobile-toolbar .center-group {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* tambahkan atau ubah ini */
+        }
+
+        /* ===== MODAL PROGRESS PER SURAH ===== */
+        .progress-modal-overlay-v2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .progress-modal-v2 {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            min-width: 350px;
+            animation: modalSlideInV2 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideInV2 {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .progress-modal-v2 h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .progress-modal-v2 p {
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+        .progress-info-v2 {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .progress-info-v2 h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar-preview-v2 {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill-preview-v2 {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text-v2 {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .progress-modal-buttons-v2 {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .progress-modal-btn-v2 {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .progress-modal-btn-v2.save {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .progress-modal-btn-v2.save:hover {
+            background: linear-gradient(45deg, #45a049, #3e8e41);
+            transform: translateY(-2px);
+        }
+
+        .progress-modal-btn-v2.delete {
+            background: linear-gradient(45deg, #f44336, #da190b);
+            color: white;
+        }
+
+        .progress-modal-btn-v2.delete:hover {
+            background: linear-gradient(45deg, #da190b, #c62828);
+            transform: translateY(-2px);
+        }
+
+        .progress-modal-btn-v2.continue {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .progress-modal-btn-v2.continue:hover {
+            background: linear-gradient(45deg, #1976D2, #1565C0);
+            transform: translateY(-2px);
+        }
+
+        .progress-modal-btn-v2.restart {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .progress-modal-btn-v2.restart:hover {
+            background: linear-gradient(45deg, #F57C00, #EF6C00);
+            transform: translateY(-2px);
+        }
+
+        /* ===== PANEL PROGRESS BACA ===== */
+        .progress-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .progress-panel.open {
+            right: 0;
+        }
+
+        .progress-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close-progress {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .close-progress:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .progress-list {
+            padding: 0;
+        }
+
+        .progress-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+
+        .progress-item:hover {
+            background: #f8f9fa;
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-surah-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .progress-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-percentage {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .progress-date {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .progress-bar-mini {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill-mini {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .progress-action-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-action-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .progress-action-btn.continue {
+            background: #28a745;
+        }
+
+        .progress-action-btn.continue:hover {
+            background: #218838;
+        }
+
+        .progress-action-btn.delete {
+            background: #dc3545;
+        }
+
+        .progress-action-btn.delete:hover {
+            background: #c82333;
+        }
+
+        .progress-empty {
+            padding: 60px 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .progress-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .progress-stats {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .progress-stats h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 1rem;
+        }
+
+        .progress-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .progress-stat-item {
+            text-align: center;
+        }
+
+        .progress-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .progress-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+
         /* Dark Theme */
         body.dark-theme {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
@@ -959,6 +1308,73 @@
             background: linear-gradient(to bottom, rgba(128, 0, 128, 0.2), rgba(128, 0, 128, 0.05));
         }
 
+        /* ===== Dark theme MODAL PROGRESS PER SURAH ===== */
+        body.dark-theme .progress-modal-v2 {
+            background: #2c3e50;
+            color: white;
+        }
+
+        body.dark-theme .progress-modal-v2 h3 {
+            color: white;
+        }
+
+        body.dark-theme .progress-modal-v2 p {
+            color: #bbb;
+        }
+
+        body.dark-theme .progress-info-v2 {
+            background: #34495e;
+            border-left-color: #3498db;
+        }
+
+        body.dark-theme .progress-info-v2 h4 {
+            color: #3498db;
+        }
+
+        body.dark-theme .progress-text-v2 {
+            color: #aaa;
+        }
+
+        /* ===== Dark theme PANEL PROGRESS BACA ===== */
+
+        body.dark-theme .progress-panel {
+            background: #2c3e50;
+            color: white;
+        }
+
+        body.dark-theme .progress-item {
+            border-bottom-color: #495057;
+        }
+
+        body.dark-theme .progress-item:hover {
+            background: #495057;
+        }
+
+        body.dark-theme .progress-surah-name {
+            color: white;
+        }
+
+        body.dark-theme .progress-date {
+            color: #aaa;
+        }
+
+        body.dark-theme .progress-empty {
+            color: #aaa;
+        }
+
+        body.dark-theme .progress-stats {
+            background: #34495e;
+            border-bottom-color: #495057;
+        }
+
+        body.dark-theme .progress-stats h4 {
+            color: white;
+        }
+
+        body.dark-theme .progress-stat-label {
+            color: #aaa;
+        }
+
         @media (max-width: 768px) {
             .ayah-card {
                 grid-template-columns: 1fr;
@@ -998,6 +1414,15 @@
                 width: 350px;
             }
 
+            /* Mobile responsive untuk progress panel */
+            .progress-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .progress-panel.open {
+                right: 0;
+            }
             
             /* Posisi Mobile Button*/
             .mobile-toolbar {
@@ -1021,10 +1446,10 @@
             }
 
             .mobile-toolbar .center-group {
-                justify-content: center;
-                flex: 2;
-                gap: 5px;
-            }
+            justify-content: center;
+            flex: 2;
+            gap: 10px;
+        }
 
             .mobile-toolbar .right-group {
                 justify-content: flex-end;
@@ -1058,9 +1483,14 @@
                 gap: 5px;
                 cursor: pointer;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-                transition: background 0.3s ease;
+                transition: all 0.3s ease;
                 white-space: nowrap; 
             }
+        }
+
+        #progressBtn {
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
         .notification {
@@ -1100,7 +1530,7 @@
 
         <div class="controls">
             <div class="control-group">
-                <label for="surah">Pilih Surah:</label>
+                <label for="surah"></label>
                 <select id="surah">
                     <!-- Options will be populated by JavaScript -->
                 </select>
@@ -1135,6 +1565,19 @@
                 <div class="center-group">
                     <button class="rounded-button" id="loadSurahBtn">📖 Tampilkan Surah</button>
                     <button class="rounded-button" onclick="toggleBookmarks()">🔖 Bookmark</button>
+                </div>
+                <!-- Progress Panel -->
+                <div class="progress-panel" id="progressPanel">
+                    <div class="progress-header">
+                        <h3>📈 Progress Baca</h3>
+                        <button class="close-progress" onclick="toggleProgressPanel()">×</button>
+                    </div>
+                    <div class="progress-stats" id="progressStats">
+                        <!-- Stats will be populated by JavaScript -->
+                    </div>
+                    <div class="progress-list" id="progressList">
+                        <!-- Progress items will be populated by JavaScript -->
+                    </div>
                 </div>
                 <div class="right-group">
                     <button class="icon-btn" onclick="toggleSettings()" title="Pengaturan">⚙️</button>
@@ -1339,37 +1782,37 @@ const quranData = {
         revelation: "Makkah",
         verses: {
             1: {
-                arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+                arabic: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ ۝١",
                 transliteration: "Bismillāhi'r-raḥmāni'r-raḥīm",
                 translation: "Dengan menyebut nama Allah Yang Maha Pemurah lagi Maha Penyayang."
             },
             2: {
-                arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+                arabic: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ ۝٢",
                 transliteration: "Al-ḥamdu lillāhi rabbi'l-'ālamīn",
                 translation: "Segala puji bagi Allah, Tuhan semesta alam."
             },
             3: {
-                arabic: "الرَّحْمَٰنِ الرَّحِيمِ",
+                arabic: "الرَّحْمٰنِ الرَّحِيْمِۙ ۝٣",
                 transliteration: "Ar-raḥmāni'r-raḥīm", 
                 translation: "Maha Pemurah lagi Maha Penyayang."
             },
             4: {
-                arabic: "مَالِكِ يَوْمِ الدِّينِ",
+                arabic: "مٰلِكِ يَوْمِ الدِّيْنِۗ ۝٤",
                 transliteration: "Māliki yawmi'd-dīn",
                 translation: "Yang menguasai di Hari Pembalasan."
             },
             5: {
-                arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+                arabic: "اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُۗ ۝٥",
                 transliteration: "Iyyāka na'budu wa iyyāka nasta'īn",
                 translation: "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami meminta pertolongan."
             },
             6: {
-                arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+                arabic: "اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَۙ ۝٦",
                 transliteration: "Ihdinaṣ-ṣirāṭal-mustaqīm",
                 translation: "Tunjukilah kami jalan yang lurus."
             },
             7: {
-                arabic: "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+                arabic: "صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ ەۙ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّاۤلِّيْنَࣖ ۝٧",
                 transliteration: "Ṣirāṭal-ladhīna an'amta 'alayhim ghayril-maghḍūbi 'alayhim wa laḍ-ḍāllīn",
                 translation: "(Yaitu) jalan orang-orang yang telah Engkau beri nikmat kepada mereka; bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat."
             }
@@ -1468,6 +1911,15 @@ let searchResults = [];
 let autoPlayQueue = [];
 let currentAutoIndex = 0;
 let searchHistory = [];
+
+let currentSurahProgress = null;
+let currentSurahNumber = null;
+let maxReadingProgress = 0;
+let isProgressChanged = false;
+let originalLoadSurah = null;
+let originalPreviousSurah = null;
+let originalNextSurah = null;
+
 let currentSettings = {
     fontSize: 'medium',
     showTransliteration: true,
@@ -2025,16 +2477,21 @@ function showNotification(message, type = 'success') {
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
     addNotificationStyles();
-    initializeAudioPlayer(); // Tambah ini
+    initializeAudioPlayer();
     console.log('DOM loaded, initializing app...');
     initBookmarks();
     loadSettings();
     loadSearchHistory();
     updateBookmarkCount();
     populateSurahSelect();
-    setupScrollHandler();
+    
+    // INISIALISASI PROGRESS BAR SYSTEM YANG BARU
+    initializeProgressBar();
+    
     setupEventListeners();
     updateAudioStatus(null);
+    
+    console.log('Enhanced app with working progress bar initialized!');
 });
 
 // Setup event listeners
@@ -2129,6 +2586,28 @@ function setupEventListeners() {
             closeAllPanels();
         }
     });
+
+    function addProgressEventListeners() {
+    // Event listener untuk resize window
+    window.addEventListener('resize', handleProgressOnResize);
+    
+    // Event listener untuk orientasi change (mobile)
+    window.addEventListener('orientationchange', () => {
+        setTimeout(handleProgressOnResize, 300);
+    });
+}
+}
+
+// PERBAIKAN 9: Fungsi khusus untuk scroll ke bagian tertentu
+function scrollToSection(sectionClass, offset = 100) {
+    const section = document.querySelector(sectionClass);
+    if (section) {
+        const elementTop = section.offsetTop;
+        window.scrollTo({
+            top: elementTop - offset,
+            behavior: 'smooth'
+        });
+    }
 }
 
 
@@ -2307,6 +2786,9 @@ function loadSurah() {
             return;
         }
 
+        // RESET PROGRESS SEBELUM LOAD SURAH BARU
+        resetProgress();
+
         // Update audio button
         const playBtn = document.getElementById('playAudioBtn');
         if (playBtn && quranData[currentSurah]) {
@@ -2316,21 +2798,33 @@ function loadSurah() {
 
         updateAudioStatus(currentSurah);
         
-
         console.log('Loading surah:', surah.name);
         displaySurah(surah, surahNumber);
         updateStatistics();
         updateNavigationButtons();
         closeAllPanels();
-        updateAudioStatus(currentSurah); // Tambahkan baris ini
         
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Scroll ke header surah setelah render
+        setTimeout(() => {
+            const surahHeader = document.querySelector('.surah-header');
+            if (surahHeader) {
+                const headerTop = surahHeader.offsetTop;
+                window.scrollTo({ 
+                    top: headerTop - 20,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Update progress setelah scroll dan render selesai
+            setTimeout(() => {
+                updateReadingProgress();
+            }, 800);
+        }, 500);
         
-        showSuccess(`Surah ${surah.name} berhasil dimuat`); // SUCCESS - RIGHT SIDE
+        showSuccess(`Surah ${surah.name} berhasil dimuat`);
     } catch (error) {
         console.error('Error loading surah:', error);
-        showError('Terjadi kesalahan saat memuat surah'); // ERROR - LEFT SIDE
+        showError('Terjadi kesalahan saat memuat surah');
     }
 }
 
@@ -2635,12 +3129,109 @@ function goToVerse(surahNum, verseNum) {
         setTimeout(() => {
             const element = document.getElementById(`ayah-${surahNum}-${verseNum}`);
             if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Scroll ke ayah dengan offset yang lebih baik
+                const elementTop = element.offsetTop;
+                const offset = 120; // Offset dari atas
+                
+                window.scrollTo({
+                    top: elementTop - offset,
+                    behavior: 'smooth'
+                });
+                
+                // Highlight ayah
                 element.classList.add('highlight');
-                setTimeout(() => element.classList.remove('highlight'), 3000);
+                setTimeout(() => element.classList.remove('highlight'), 4000);
+                
+                // Update progress setelah scroll
+                setTimeout(() => {
+                    updateReadingProgress();
+                }, 1000);
             }
-        }, 500);
+        }, 1000); // Delay lebih lama untuk memastikan rendering selesai
     }
+}
+
+// 9. FUNGSI INITIALIZATION YANG LENGKAP
+function initializeProgressBar() {
+    console.log('Initializing Progress Bar System...');
+    
+    // Setup scroll handler
+    setupScrollHandler();
+    
+    // Force update progress setelah DOM benar-benar ready
+    if (document.readyState === 'complete') {
+        setTimeout(() => {
+            updateReadingProgress();
+        }, 1500);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                updateReadingProgress();
+            }, 1500);
+        });
+    }
+    
+    // Observer untuk perubahan DOM (ketika ayah cards ditambahkan)
+    if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    // Cek apakah ada ayah card yang ditambahkan
+                    const hasAyahCard = Array.from(mutation.addedNodes).some(node => 
+                        node.nodeType === 1 && (
+                            node.classList.contains('ayah-card') || 
+                            node.querySelector('.ayah-card')
+                        )
+                    );
+                    
+                    if (hasAyahCard) {
+                        setTimeout(() => {
+                            updateReadingProgress();
+                        }, 500);
+                    }
+                }
+            });
+        });
+        
+        // Observe perubahan di surah container
+        const surahContainer = document.getElementById('surahContainer');
+        if (surahContainer) {
+            observer.observe(surahContainer, {
+                childList: true,
+                subtree: true
+            });
+        }
+    }
+    
+    console.log('Progress Bar System initialized successfully');
+}
+
+// 10. FUNGSI UNTUK FORCE UPDATE PROGRESS (UNTUK DEBUGGING)
+function forceUpdateProgress() {
+    console.log('Force updating progress...');
+    updateReadingProgress();
+}
+
+function handleProgressOnResize() {
+    setTimeout(() => {
+        updateReadingProgress();
+    }, 200);
+}
+
+// PERBAIKAN 7: Tambahkan fungsi ini untuk reset progress saat ganti surah
+function resetProgress() {
+    const progressFill = document.getElementById('progressFill');
+    const progressElement = document.getElementById('readingProgress');
+    
+    if (progressFill) {
+        progressFill.style.width = '0%';
+        progressFill.style.transition = 'width 0.3s ease';
+    }
+    if (progressElement) {
+        progressElement.textContent = '0%';
+    }
+    
+    console.log('Progress reset to 0%');
 }
 
 // Bookmark functions
@@ -3004,11 +3595,13 @@ function previousSurah() {
             const prevSurah = surahKeys[currentIndex - 1];
             surahSelect.value = prevSurah;
             currentSurah = prevSurah;
+            resetProgress(); // Reset progress dulu
             loadSurah();
         }
     }
 }
 
+// 7. GANTI FUNGSI nextSurah() DENGAN INI
 function nextSurah() {
     const surahSelect = document.getElementById('surah');
     const currentValue = parseInt(surahSelect.value);
@@ -3020,6 +3613,7 @@ function nextSurah() {
             const nextSurah = surahKeys[currentIndex + 1];
             surahSelect.value = nextSurah;
             currentSurah = nextSurah;
+            resetProgress(); // Reset progress dulu
             loadSurah();
         }
     }
@@ -3068,25 +3662,23 @@ function updateNavigationButtons() {
 function updateStatistics() {
     try {
         const surah = quranData[currentSurah];
-        if (surah) {
-            const totalVerses = Object.keys(surah.verses).length;
-            const totalAyahsElement = document.getElementById('totalAyahs');
-            if (totalAyahsElement) {
-                totalAyahsElement.textContent = totalVerses;
-            }
-            
-            // Simulate reading progress based on scroll position
-            const progress = Math.min(100, Math.floor(Math.random() * 100));
-            const progressElement = document.getElementById('readingProgress');
-            const progressFill = document.getElementById('progressFill');
-            
-            if (progressElement) {
-                progressElement.textContent = progress + '%';
-            }
-            if (progressFill) {
-                progressFill.style.width = progress + '%';
-            }
+        if (!surah) return;
+        
+        const totalVerses = Object.keys(surah.verses).length;
+        const totalAyahsElement = document.getElementById('totalAyahs');
+        
+        if (totalAyahsElement) {
+            totalAyahsElement.textContent = totalVerses;
         }
+        
+        // Reset progress saat load surah baru
+        resetProgress();
+        
+        // Update progress setelah render selesai (delay lebih lama)
+        setTimeout(() => {
+            updateReadingProgress();
+        }, 1200);
+        
     } catch (error) {
         console.error('Error updating statistics:', error);
     }
@@ -3094,51 +3686,91 @@ function updateStatistics() {
 
 // Scroll functions
 function setupScrollHandler() {
-    let isScrolling = false;
+    let ticking = false;
     
-    window.addEventListener('scroll', () => {
-        if (!isScrolling) {
-            window.requestAnimationFrame(() => {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollBtn = document.getElementById('scrollTopBtn');
-                
-                if (scrollBtn) {
-                    if (scrollTop > 300) {
-                        scrollBtn.style.display = 'block';
-                    } else {
-                        scrollBtn.style.display = 'none';
-                    }
-                }
-                
-                // Update reading progress based on scroll
-                updateReadingProgress();
-                
-                isScrolling = false;
-            });
-            isScrolling = true;
+    function updateOnScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        
+        // Update scroll to top button
+        if (scrollBtn) {
+            scrollBtn.style.display = scrollTop > 500 ? 'block' : 'none';
         }
+        
+        // Update reading progress
+        updateReadingProgress();
+        
+        ticking = false;
+    }
+    
+    // Event scroll dengan throttling
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateOnScroll);
+            ticking = true;
+        }
+    }, { passive: true });
+    
+    // Event resize untuk update progress
+    window.addEventListener('resize', () => {
+        setTimeout(() => {
+            updateReadingProgress();
+        }, 300);
     });
+    
+    // Initial progress update setelah DOM ready
+    setTimeout(() => {
+        updateReadingProgress();
+        console.log('Progress bar initialized successfully');
+    }, 1000);
 }
 
 function updateReadingProgress() {
     try {
-        const container = document.getElementById('surahContainer');
         const progressFill = document.getElementById('progressFill');
         const progressElement = document.getElementById('readingProgress');
         
-        if (container && progressFill && progressElement) {
-            const containerTop = container.offsetTop;
-            const containerHeight = container.offsetHeight;
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            
-            const scrolled = Math.max(0, scrollTop - containerTop);
-            const scrollableHeight = Math.max(1, containerHeight - windowHeight);
-            const progress = Math.min(100, Math.floor((scrolled / scrollableHeight) * 100));
-            
-            progressFill.style.width = progress + '%';
-            progressElement.textContent = progress + '%';
+        if (!progressFill || !progressElement) {
+            console.log('Progress elements not found');
+            return;
         }
+        
+        // Ambil semua ayah cards yang ada di halaman
+        const ayahCards = document.querySelectorAll('.ayah-card');
+        if (ayahCards.length === 0) {
+            progressFill.style.width = '0%';
+            progressElement.textContent = '0%';
+            return;
+        }
+        
+        const windowHeight = window.innerHeight;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const viewportCenter = scrollTop + (windowHeight / 2);
+        
+        let readAyahs = 0;
+        const totalAyahs = ayahCards.length;
+        
+        // Hitung ayah yang sudah terbaca (melewati tengah viewport)
+        ayahCards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const cardTop = rect.top + scrollTop;
+            
+            // Ayah dianggap terbaca jika sudah melewati tengah viewport
+            if (cardTop < viewportCenter) {
+                readAyahs++;
+            }
+        });
+        
+        // Hitung persentase
+        const progress = Math.min(100, Math.max(0, Math.floor((readAyahs / totalAyahs) * 100)));
+        
+        // Update UI dengan animasi smooth
+        progressFill.style.width = progress + '%';
+        progressElement.textContent = progress + '%';
+        
+        // Debug info
+        console.log(`Progress Update: ${progress}% (${readAyahs}/${totalAyahs} ayat)`);
+        
     } catch (error) {
         console.error('Error updating reading progress:', error);
     }
@@ -3152,19 +3784,21 @@ function scrollToTop() {
 }
 
 // Close all panels
+// Close all panels
 function closeAllPanels() {
     try {
         const panels = [
             'settingsPanel',
             'searchContainer',
             'bookmarksPanel',
+            'progressPanel',
             'overlay'
         ];
         
         panels.forEach(panelId => {
             const panel = document.getElementById(panelId);
             if (panel) {
-                if (panelId === 'bookmarksPanel') {
+                if (panelId === 'bookmarksPanel' || panelId === 'progressPanel') {
                     panel.classList.remove('open');
                 } else {
                     panel.classList.remove('show');
@@ -3864,7 +4498,7 @@ window.QuranApp = {
     version: '2.0.0'
 };
 
-console.log('Al-Quran Digital Enhanced v2.0.0 loaded successfully');
+console.log('Progress Bar System v2.0 loaded successfully!');
 
 function getAudioUrl(surah, ayah) {
     return `https://verses.quran.com/AbdulBaset/Mujawwad/mp3/${String(surah).padStart(3, '0')}${String(ayah).padStart(3, '0')}.mp3`;
@@ -3887,6 +4521,969 @@ function updateAudioStatus(surahNumber) {
         statusEl.textContent = `🔊 Audio tersedia untuk surah ${surah.name}`;
     }
 }
-    </script>
+
+// ===== SISTEM PROGRESS PER SURAH =====
+
+// CSS untuk modal progress per surah
+// Fungsi untuk menampilkan notifikasi (fallback jika showSuccess tidak ada)
+function safeShowSuccess(message) {
+    if (typeof showSuccess === 'function') {
+        showSuccess(message);
+    } else if (typeof showNotification === 'function') {
+        showNotification(message, 'success');
+    } else {
+        console.log('SUCCESS:', message);
+        alert(message);
+    }
+}
+
+function safeShowError(message) {
+    if (typeof showError === 'function') {
+        showError(message);
+    } else if (typeof showNotification === 'function') {
+        showNotification(message, 'error');
+    } else {
+        console.log('ERROR:', message);
+        alert(message);
+    }
+}
+
+// Simpan progress surah ke localStorage
+function saveProgressForSurah(surahNumber, progress) {
+    try {
+        if (!surahNumber || progress < 0) return;
+        
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        progressData[surahNumber] = {
+            progress: progress,
+            lastRead: new Date().toISOString(),
+            surahName: (window.quranData && window.quranData[surahNumber]) ? 
+                      window.quranData[surahNumber].name : `Surah ${surahNumber}`
+        };
+        localStorage.setItem('quranSurahProgress', JSON.stringify(progressData));
+        console.log(`Progress saved for surah ${surahNumber}: ${progress}%`);
+    } catch (error) {
+        console.error('Error saving progress:', error);
+    }
+}
+
+// Load progress surah dari localStorage
+function loadProgressForSurah(surahNumber) {
+    try {
+        if (!surahNumber) return 0;
+        
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        if (progressData[surahNumber]) {
+            return progressData[surahNumber].progress || 0;
+        }
+        return 0;
+    } catch (error) {
+        console.error('Error loading progress:', error);
+        return 0;
+    }
+}
+
+// Hapus progress surah dari localStorage
+function deleteProgressForSurah(surahNumber) {
+    try {
+        if (!surahNumber) return;
+        
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        delete progressData[surahNumber];
+        localStorage.setItem('quranSurahProgress', JSON.stringify(progressData));
+        console.log(`Progress deleted for surah ${surahNumber}`);
+    } catch (error) {
+        console.error('Error deleting progress:', error);
+    }
+}
+
+// Cek apakah surah memiliki progress tersimpan
+function hasSavedProgress(surahNumber) {
+    try {
+        if (!surahNumber) return false;
+        
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        return progressData[surahNumber] && progressData[surahNumber].progress > 0;
+    } catch (error) {
+        return false;
+    }
+}
+
+function getSurahName(surahNumber) {
+    try {
+        // Coba ambil dari quranData global
+        if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
+            return quranData[surahNumber].name;
+        }
+        
+        // Coba dari window.quranData
+        if (window.quranData && window.quranData[surahNumber]) {
+            return window.quranData[surahNumber].name;
+        }
+        
+        // Fallback - coba ambil dari select option yang dipilih
+        const surahSelect = document.getElementById('surah');
+        if (surahSelect) {
+            const selectedOption = surahSelect.options[surahSelect.selectedIndex];
+            if (selectedOption && selectedOption.value == surahNumber) {
+                const optionText = selectedOption.textContent;
+                // Extract nama surah dari text seperti "1. Al-Fatihah (الفاتحة)"
+                const match = optionText.match(/^\d+\.\s*([^(]+)/);
+                if (match) {
+                    return match[1].trim();
+                }
+            }
+        }
+        
+        // Ultimate fallback
+        return `Surah ${surahNumber}`;
+    } catch (error) {
+        console.error('Error getting surah name:', error);
+        return `Surah ${surahNumber}`;
+    }
+}
+
+// UPDATE: Modal konfirmasi untuk menyimpan/menghapus progress saat pindah surah
+function showSaveProgressModal(previousSurahNumber, previousProgress, callback) {
+    try {
+        // Hapus modal lama jika ada
+        const existingModal = document.getElementById('progressModalV2');
+        if (existingModal) existingModal.remove();
+
+        const previousSurahName = getSurahName(previousSurahNumber);
+        
+        const modalHTML = `
+            <div class="progress-modal-overlay-v2" id="progressModalV2">
+                <div class="progress-modal-v2">
+                    <h3>💾 Simpan Progress Baca?</h3>
+                    
+                    <div class="progress-info-v2">
+                        <h4>Progress Baca ${previousSurahName}</h4>
+                        <div class="progress-bar-preview-v2">
+                            <div class="progress-fill-preview-v2" style="width: ${previousProgress}%"></div>
+                        </div>
+                        <div class="progress-text-v2">Progress saat ini: ${previousProgress}%</div>
+                    </div>
+                    
+                    <p>Apakah Anda ingin <strong>menyimpan</strong> atau <strong>menghapus</strong> progress baca <strong>${previousSurahName}</strong>?</p>
+                    
+                    <div class="progress-modal-buttons-v2">
+                        <button class="progress-modal-btn-v2 save" onclick="confirmSaveProgressV2(${previousSurahNumber}, ${previousProgress}, true)">
+                            💾 Simpan
+                        </button>
+                        <button class="progress-modal-btn-v2 delete" onclick="confirmSaveProgressV2(${previousSurahNumber}, ${previousProgress}, false)">
+                            🗑️ Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = modalHTML;
+        document.body.appendChild(tempDiv.firstElementChild);
+        
+        // Store callback
+        window.saveProgressCallbackV2 = callback;
+        
+    } catch (error) {
+        console.error('Error showing save progress modal:', error);
+        if (callback) callback();
+    }
+}
+
+// UPDATE: Modal konfirmasi untuk melanjutkan atau memulai dari awal
+function showContinueProgressModal(surahNumber, savedProgress, callback) {
+    try {
+        // Hapus modal lama jika ada
+        const existingModal = document.getElementById('progressModalV2');
+        if (existingModal) existingModal.remove();
+
+        const surahName = getSurahName(surahNumber);
+        
+        // Hitung total ayat dan ayat terakhir yang dibaca
+        let totalVerses = 0;
+        let lastVerseRead = 0;
+        
+        try {
+            if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
+                totalVerses = Object.keys(quranData[surahNumber].verses).length;
+            } else if (window.quranData && window.quranData[surahNumber]) {
+                totalVerses = Object.keys(window.quranData[surahNumber].verses).length;
+            }
+            
+            if (totalVerses > 0) {
+                lastVerseRead = Math.ceil((savedProgress / 100) * totalVerses);
+            }
+        } catch (error) {
+            console.error('Error calculating verses:', error);
+        }
+        
+        const modalHTML = `
+            <div class="progress-modal-overlay-v2" id="progressModalV2">
+                <div class="progress-modal-v2">
+                    <h3>📖 Lanjutkan Membaca?</h3>
+                    
+                    <div class="progress-info-v2">
+                        <h4>Progress Tersimpan ${surahName}</h4>
+                        <div class="progress-bar-preview-v2">
+                            <div class="progress-fill-preview-v2" style="width: ${savedProgress}%"></div>
+                        </div>
+                        <div class="progress-text-v2">Progress tersimpan: ${savedProgress}% ${totalVerses > 0 ? `(sekitar ayat ${lastVerseRead} dari ${totalVerses})` : ''}</div>
+                    </div>
+                    
+                    <p>Apakah Anda ingin <strong>melanjutkan membaca</strong> dari progress terakhir atau <strong>memulai dari awal</strong>?</p>
+                    
+                    <div class="progress-modal-buttons-v2">
+                        <button class="progress-modal-btn-v2 continue" onclick="confirmContinueProgressV2(${surahNumber}, ${savedProgress}, true)">
+                            📖 Lanjutkan
+                        </button>
+                        <button class="progress-modal-btn-v2 restart" onclick="confirmContinueProgressV2(${surahNumber}, ${savedProgress}, false)">
+                            🔄 Mulai Awal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = modalHTML;
+        document.body.appendChild(tempDiv.firstElementChild);
+        
+        // Store callback
+        window.continueProgressCallbackV2 = callback;
+        
+    } catch (error) {
+        console.error('Error showing continue progress modal:', error);
+        if (callback) callback();
+    }
+}
+
+// UPDATE: Simpan progress surah ke localStorage dengan nama yang benar
+function saveProgressForSurah(surahNumber, progress) {
+    try {
+        if (!surahNumber || progress < 0) return;
+        
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        progressData[surahNumber] = {
+            progress: progress,
+            lastRead: new Date().toISOString(),
+            surahName: getSurahName(surahNumber)
+        };
+        localStorage.setItem('quranSurahProgress', JSON.stringify(progressData));
+        console.log(`Progress saved for ${getSurahName(surahNumber)}: ${progress}%`);
+    } catch (error) {
+        console.error('Error saving progress:', error);
+    }
+}
+
+// UPDATE: Handle konfirmasi save/delete progress
+function confirmSaveProgressV2(surahNumber, progress, shouldSave) {
+    try {
+        const modal = document.getElementById('progressModalV2');
+        const surahName = getSurahName(surahNumber);
+        
+        if (shouldSave) {
+            saveProgressForSurah(surahNumber, progress);
+            safeShowSuccess(`✅ Progress ${surahName} (${progress}%) disimpan`);
+        } else {
+            deleteProgressForSurah(surahNumber);
+            safeShowSuccess(`🗑️ Progress ${surahName} dihapus`);
+        }
+        
+        // Tutup modal
+        if (modal) modal.remove();
+        
+        // Jalankan callback
+        if (window.saveProgressCallbackV2) {
+            window.saveProgressCallbackV2();
+            window.saveProgressCallbackV2 = null;
+        }
+    } catch (error) {
+        console.error('Error confirming save progress:', error);
+    }
+}
+
+// UPDATE: Handle konfirmasi continue/restart progress
+function confirmContinueProgressV2(surahNumber, savedProgress, shouldContinue) {
+    try {
+        const modal = document.getElementById('progressModalV2');
+        const surahName = getSurahName(surahNumber);
+        
+        if (shouldContinue) {
+            // Lanjutkan dari progress tersimpan
+            maxReadingProgress = savedProgress;
+            updateProgressBarDisplay();
+            safeShowSuccess(`📖 Melanjutkan ${surahName} dari ${savedProgress}%`);
+            
+            // Scroll ke posisi yang sesuai dengan progress
+            setTimeout(() => {
+                scrollToProgressPosition(savedProgress);
+            }, 1000);
+        } else {
+            // Mulai dari awal - reset progress
+            deleteProgressForSurah(surahNumber);
+            maxReadingProgress = 0;
+            updateProgressBarDisplay();
+            safeShowSuccess(`🔄 Memulai ${surahName} dari awal`);
+            
+            // Scroll ke atas
+            setTimeout(() => {
+                if (typeof scrollToTop === 'function') {
+                    scrollToTop();
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 500);
+        }
+        
+        // Tutup modal
+        if (modal) modal.remove();
+        
+        // Jalankan callback
+        if (window.continueProgressCallbackV2) {
+            window.continueProgressCallbackV2();
+            window.continueProgressCallbackV2 = null;
+        }
+    } catch (error) {
+        console.error('Error confirming continue progress:', error);
+    }
+}
+
+// Scroll ke posisi berdasarkan progress
+function scrollToProgressPosition(progress) {
+    try {
+        const ayahCards = document.querySelectorAll('.ayah-card');
+        if (ayahCards.length === 0) return;
+        
+        const targetIndex = Math.floor((progress / 100) * ayahCards.length);
+        const targetCard = ayahCards[Math.min(targetIndex, ayahCards.length - 1)];
+        
+        if (targetCard) {
+            targetCard.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Highlight target card
+            targetCard.classList.add('highlight');
+            setTimeout(() => {
+                targetCard.classList.remove('highlight');
+            }, 3000);
+        }
+    } catch (error) {
+        console.error('Error scrolling to progress position:', error);
+    }
+}
+
+// Update tampilan progress bar
+function updateProgressBarDisplay() {
+    try {
+        const progressFill = document.getElementById('progressFill');
+        const progressElement = document.getElementById('readingProgress');
+        
+        if (progressFill) progressFill.style.width = maxReadingProgress + '%';
+        if (progressElement) progressElement.textContent = maxReadingProgress + '%';
+    } catch (error) {
+        console.error('Error updating progress bar display:', error);
+    }
+}
+
+// Update progress berdasarkan scroll (hanya bisa naik)
+function updateReadingProgressPerSurah() {
+    try {
+        if (!currentSurahNumber) return;
+        
+        const ayahCards = document.querySelectorAll('.ayah-card');
+        if (ayahCards.length === 0) return;
+        
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const viewportMiddle = scrollTop + (windowHeight / 2);
+        
+        let currentReadCount = 0;
+        const totalCount = ayahCards.length;
+        
+        // Hitung ayah yang sudah terbaca
+        ayahCards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const cardTop = rect.top + scrollTop;
+            
+            if (cardTop < viewportMiddle) {
+                currentReadCount++;
+            }
+        });
+        
+        const currentProgress = Math.floor((currentReadCount / totalCount) * 100);
+        
+        // Progress hanya bisa naik
+        if (currentProgress > maxReadingProgress) {
+            maxReadingProgress = currentProgress;
+            updateProgressBarDisplay();
+            
+            // Auto save progress (silent save)
+            saveProgressForSurah(currentSurahNumber, maxReadingProgress);
+        }
+    } catch (error) {
+        console.error('Error updating reading progress per surah:', error);
+    }
+}
+
+// Setup scroll listener untuk progress per surah
+function setupPerSurahProgressListener() {
+    try {
+        let isScrolling = false;
+        
+        function handleScroll() {
+            if (isScrolling) return;
+            
+            isScrolling = true;
+            
+            requestAnimationFrame(() => {
+                updateReadingProgressPerSurah();
+                isScrolling = false;
+            });
+        }
+        
+        // Remove existing listener
+        window.removeEventListener('scroll', handleScroll);
+        // Add new listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        console.log('Per-surah progress scroll listener setup');
+    } catch (error) {
+        console.error('Error setting up scroll listener:', error);
+    }
+}
+
+// Override loadSurah dengan konfirmasi progress
+function loadSurahWithProgressConfirm() {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) {
+            safeShowError('Surah select not found');
+            return;
+        }
+        
+        const newSurahNumber = parseInt(surahSelect.value);
+        
+        if (!newSurahNumber || isNaN(newSurahNumber)) {
+            safeShowError('Silakan pilih surah terlebih dahulu');
+            return;
+        }
+        
+        // Fungsi untuk melanjutkan load surah baru
+        const proceedToNewSurah = () => {
+            currentSurahNumber = newSurahNumber;
+            
+            // Cek apakah surah baru memiliki progress tersimpan
+            if (hasSavedProgress(newSurahNumber)) {
+                const savedProgress = loadProgressForSurah(newSurahNumber);
+                
+                // Tampilkan modal konfirmasi untuk melanjutkan atau mulai dari awal
+                showContinueProgressModal(newSurahNumber, savedProgress, () => {
+                    // Load surah setelah konfirmasi
+                    if (originalLoadSurah) {
+                        originalLoadSurah();
+                    } else {
+                        safeShowError('Original loadSurah function not found');
+                    }
+                    
+                    // Update currentSurah global variable
+                    if (typeof window.currentSurah !== 'undefined') {
+                        window.currentSurah = newSurahNumber;
+                    }
+                });
+            } else {
+                // Surah baru, mulai dari 0%
+                maxReadingProgress = 0;
+                updateProgressBarDisplay();
+                
+                if (originalLoadSurah) {
+                    originalLoadSurah();
+                } else {
+                    safeShowError('Original loadSurah function not found');
+                }
+                
+                // Update currentSurah global variable
+                if (typeof window.currentSurah !== 'undefined') {
+                    window.currentSurah = newSurahNumber;
+                }
+            }
+        };
+        
+        // Jika ada surah sebelumnya dengan progress > 0, tanya save/delete
+        if (currentSurahNumber && currentSurahNumber !== newSurahNumber && maxReadingProgress > 0) {
+            showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToNewSurah);
+        } else {
+            // Langsung ke surah baru
+            proceedToNewSurah();
+        }
+    } catch (error) {
+        console.error('Error in loadSurahWithProgressConfirm:', error);
+        safeShowError('Terjadi kesalahan saat memuat surah');
+    }
+}
+
+// Override navigation functions  
+function previousSurahWithProgressConfirm() {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        const currentValue = parseInt(surahSelect.value);
+        
+        if (currentValue && currentValue > 1 && window.quranData) {
+            const surahKeys = Object.keys(window.quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = surahKeys.indexOf(currentValue);
+            if (currentIndex > 0) {
+                const prevSurah = surahKeys[currentIndex - 1];
+                
+                // Fungsi untuk pindah ke surah sebelumnya
+                const proceedToPrevSurah = () => {
+                    surahSelect.value = prevSurah;
+                    loadSurahWithProgressConfirm();
+                };
+                
+                // Jika ada progress pada surah saat ini, tanya save/delete
+                if (maxReadingProgress > 0) {
+                    showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToPrevSurah);
+                } else {
+                    proceedToPrevSurah();
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error in previousSurahWithProgressConfirm:', error);
+    }
+}
+
+function nextSurahWithProgressConfirm() {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        const currentValue = parseInt(surahSelect.value);
+        
+        if (currentValue && window.quranData) {
+            const surahKeys = Object.keys(window.quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = surahKeys.indexOf(currentValue);
+            if (currentIndex < surahKeys.length - 1) {
+                const nextSurah = surahKeys[currentIndex + 1];
+                
+                // Fungsi untuk pindah ke surah selanjutnya
+                const proceedToNextSurah = () => {
+                    surahSelect.value = nextSurah;
+                    loadSurahWithProgressConfirm();
+                };
+                
+                // Jika ada progress pada surah saat ini, tanya save/delete
+                if (maxReadingProgress > 0) {
+                    showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToNextSurah);
+                } else {
+                    proceedToNextSurah();
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error in nextSurahWithProgressConfirm:', error);
+    }
+}
+
+// Inisialisasi sistem progress per surah
+function initPerSurahProgressSystem() {
+    try {
+        console.log('Initializing Per-Surah Progress System...');
+        
+        // Setup scroll listener
+        setupPerSurahProgressListener();
+        
+        // Backup dan override functions dengan delay untuk memastikan functions sudah ada
+        setTimeout(() => {
+            try {
+                // Backup original functions
+                if (typeof window.loadSurah === 'function' && !originalLoadSurah) {
+                    originalLoadSurah = window.loadSurah;
+                    window.loadSurah = loadSurahWithProgressConfirm;
+                    console.log('loadSurah function overridden');
+                }
+                
+                if (typeof window.previousSurah === 'function' && !originalPreviousSurah) {
+                    originalPreviousSurah = window.previousSurah;
+                    window.previousSurah = previousSurahWithProgressConfirm;
+                    console.log('previousSurah function overridden');
+                }
+                
+                if (typeof window.nextSurah === 'function' && !originalNextSurah) {
+                    originalNextSurah = window.nextSurah;
+                    window.nextSurah = nextSurahWithProgressConfirm;
+                    console.log('nextSurah function overridden');
+                }
+                
+                // Override updateReadingProgress jika ada
+                if (typeof window.updateReadingProgress === 'function') {
+                    window.updateReadingProgress = updateReadingProgressPerSurah;
+                    console.log('updateReadingProgress function overridden');
+                }
+            } catch (error) {
+                console.error('Error overriding functions:', error);
+            }
+        }, 1000);
+        
+        // Reset progress bar
+        maxReadingProgress = 0;
+        currentSurahNumber = null;
+        updateProgressBarDisplay();
+        
+        console.log('✅ Per-Surah Progress System initialized');
+    } catch (error) {
+        console.error('Error initializing per-surah progress system:', error);
+    }
+}
+
+// Expose functions untuk debugging
+window.PerSurahProgressV2 = {
+    save: saveProgressForSurah,
+    load: loadProgressForSurah,
+    delete: deleteProgressForSurah,
+    hasSaved: hasSavedProgress,
+    current: () => ({ surah: currentSurahNumber, progress: maxReadingProgress }),
+    init: initPerSurahProgressSystem
+};
+
+// Expose global functions untuk modal callbacks
+window.confirmSaveProgressV2 = confirmSaveProgressV2;
+window.confirmContinueProgressV2 = confirmContinueProgressV2;
+
+// Auto init when DOM ready dengan multiple fallbacks
+(function() {
+    function tryInit() {
+        if (document.body && document.head) {
+            initPerSurahProgressSystem();
+            return true;
+        }
+        return false;
+    }
+    
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        if (!tryInit()) {
+            setTimeout(tryInit, 500);
+        }
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!tryInit()) {
+                setTimeout(tryInit, 500);
+            }
+        });
+        
+        window.addEventListener('load', () => {
+            setTimeout(tryInit, 1000);
+        });
+    }
+})();
+
+console.log('✅ Per-Surah Progress System V2 Loaded!');
+
+// ===== PANEL PROGRESS BACA =====
+// Fungsi untuk mendapatkan semua progress yang tersimpan
+function getAllSavedProgress() {
+    try {
+        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
+        return progressData;
+    } catch (error) {
+        console.error('Error loading all progress:', error);
+        return {};
+    }
+}
+
+// Fungsi untuk menghitung statistik progress
+function calculateProgressStats() {
+    const allProgress = getAllSavedProgress();
+    const surahCount = Object.keys(allProgress).length;
+    
+    if (surahCount === 0) {
+        return { totalSurah: 0, averageProgress: 0, completedSurah: 0 };
+    }
+    
+    const progressValues = Object.values(allProgress).map(item => item.progress || 0);
+    const totalProgress = progressValues.reduce((sum, progress) => sum + progress, 0);
+    const averageProgress = Math.floor(totalProgress / surahCount);
+    const completedSurah = progressValues.filter(progress => progress >= 100).length;
+    
+    return {
+        totalSurah: surahCount,
+        averageProgress: averageProgress,
+        completedSurah: completedSurah
+    };
+}
+
+// Fungsi untuk format tanggal
+function formatDate(dateString) {
+    try {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 0) {
+            return 'Hari ini';
+        } else if (diffDays === 1) {
+            return 'Kemarin';
+        } else if (diffDays < 7) {
+            return `${diffDays} hari lalu`;
+        } else {
+            return date.toLocaleDateString('id-ID', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric' 
+            });
+        }
+    } catch (error) {
+        return 'Tidak diketahui';
+    }
+}
+
+// Fungsi untuk menampilkan panel progress
+function toggleProgressPanel() {
+    const panel = document.getElementById('progressPanel');
+    const overlay = document.getElementById('overlay');
+    
+    if (panel && overlay) {
+        panel.classList.toggle('open');
+        overlay.classList.toggle('show');
+        
+        if (panel.classList.contains('open')) {
+            displayProgressList();
+        }
+    }
+}
+
+// Fungsi untuk menampilkan daftar progress
+function displayProgressList() {
+    const container = document.getElementById('progressList');
+    const statsContainer = document.getElementById('progressStats');
+    
+    if (!container) return;
+    
+    const allProgress = getAllSavedProgress();
+    const progressEntries = Object.entries(allProgress);
+    
+    // Update statistik
+    if (statsContainer) {
+        const stats = calculateProgressStats();
+        statsContainer.innerHTML = `
+            <h4>📊 Statistik Progress Baca</h4>
+            <div class="progress-stats-grid">
+                <div class="progress-stat-item">
+                    <span class="progress-stat-number">${stats.totalSurah}</span>
+                    <span class="progress-stat-label">Surah Dibaca</span>
+                </div>
+                <div class="progress-stat-item">
+                    <span class="progress-stat-number">${stats.averageProgress}%</span>
+                    <span class="progress-stat-label">Rata-rata Progress</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (progressEntries.length === 0) {
+        container.innerHTML = `
+            <div class="progress-empty">
+                <div class="progress-empty-icon">📖</div>
+                <h4>Belum Ada Progress</h4>
+                <p>Mulai membaca surah untuk melihat progress Anda di sini</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Sort berdasarkan tanggal terakhir dibaca (terbaru dulu)
+    progressEntries.sort((a, b) => {
+        const dateA = new Date(a[1].lastRead || 0);
+        const dateB = new Date(b[1].lastRead || 0);
+        return dateB - dateA;
+    });
+    
+    let html = '';
+    progressEntries.forEach(([surahNumber, progressData]) => {
+        const surahName = getSurahName(parseInt(surahNumber));
+        const progress = progressData.progress || 0;
+        const lastRead = progressData.lastRead;
+        const formattedDate = formatDate(lastRead);
+        
+        // Hitung ayat terakhir yang dibaca
+        let estimatedVerse = '';
+        try {
+            let totalVerses = 0;
+            if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
+                totalVerses = Object.keys(quranData[surahNumber].verses).length;
+            }
+            if (totalVerses > 0) {
+                const lastVerseRead = Math.ceil((progress / 100) * totalVerses);
+                estimatedVerse = ` (≈ ayat ${lastVerseRead}/${totalVerses})`;
+            }
+        } catch (error) {
+            // Ignore error
+        }
+        
+        html += `
+            <div class="progress-item" onclick="goToProgressSurah(${surahNumber}, ${progress})">
+                <div class="progress-surah-name">${surahName}</div>
+                <div class="progress-details">
+                    <span class="progress-percentage">${progress}%${estimatedVerse}</span>
+                    <span class="progress-date">${formattedDate}</span>
+                </div>
+                <div class="progress-bar-mini">
+                    <div class="progress-fill-mini" style="width: ${progress}%"></div>
+                </div>
+                <div class="progress-actions">
+                    <button class="progress-action-btn continue" 
+                            onclick="event.stopPropagation(); continueFromProgress(${surahNumber}, ${progress})"
+                            title="Lanjutkan membaca">
+                        📖 Lanjutkan
+                    </button>
+                    <button class="progress-action-btn delete" 
+                            onclick="event.stopPropagation(); deleteProgressFromPanel(${surahNumber})"
+                            title="Hapus progress">
+                        🗑️ Hapus
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// Fungsi untuk pergi ke surah dengan progress tertentu
+function goToProgressSurah(surahNumber, progress) {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        // Tutup panel progress
+        toggleProgressPanel();
+        
+        // Set surah di select
+        surahSelect.value = surahNumber;
+        
+        // Set progress yang akan digunakan
+        currentSurahNumber = surahNumber;
+        maxReadingProgress = progress;
+        
+        // Load surah
+        if (originalLoadSurah) {
+            originalLoadSurah();
+        }
+        
+        // Update currentSurah global
+        if (typeof window.currentSurah !== 'undefined') {
+            window.currentSurah = surahNumber;
+        }
+        
+        // Update progress bar display
+        setTimeout(() => {
+            updateProgressBarDisplay();
+            
+            // Scroll ke posisi progress
+            setTimeout(() => {
+                scrollToProgressPosition(progress);
+                safeShowSuccess(`📖 Membuka ${getSurahName(surahNumber)} di progress ${progress}%`);
+            }, 1000);
+        }, 500);
+        
+    } catch (error) {
+        console.error('Error going to progress surah:', error);
+        safeShowError('Gagal membuka surah');
+    }
+}
+
+// Fungsi untuk melanjutkan dari progress
+function continueFromProgress(surahNumber, progress) {
+    goToProgressSurah(surahNumber, progress);
+}
+
+// Fungsi untuk menghapus progress dari panel
+function deleteProgressFromPanel(surahNumber) {
+    try {
+        const surahName = getSurahName(surahNumber);
+        
+        if (confirm(`Hapus progress baca ${surahName}?`)) {
+            deleteProgressForSurah(surahNumber);
+            displayProgressList(); // Refresh list
+            safeShowSuccess(`🗑️ Progress ${surahName} berhasil dihapus`);
+        }
+    } catch (error) {
+        console.error('Error deleting progress from panel:', error);
+        safeShowError('Gagal menghapus progress');
+    }
+}
+
+// Fungsi untuk menambahkan tombol progress di toolbar
+function addProgressButtonToToolbar() {
+    // Cek apakah tombol sudah ada di HTML
+    const existingBtn = document.getElementById('progressBtn');
+    if (existingBtn) {
+        // Tombol sudah ada di HTML, hanya setup event listener
+        existingBtn.onclick = toggleProgressPanel;
+        existingBtn.title = 'Lihat Progress Baca';
+        console.log('Progress button found and configured');
+        return;
+    }
+    
+    // Fallback: buat tombol jika belum ada (untuk backward compatibility)
+    const bookmarkBtn = document.querySelector('button[onclick*="toggleBookmarks"]');
+    if (bookmarkBtn && !document.getElementById('progressBtn')) {
+        const progressBtn = document.createElement('button');
+        progressBtn.id = 'progressBtn';
+        progressBtn.className = 'rounded-button';
+        progressBtn.onclick = toggleProgressPanel;
+        progressBtn.innerHTML = '📈 Progress';
+        progressBtn.title = 'Lihat Progress Baca';
+        bookmarkBtn.parentNode.insertBefore(progressBtn, bookmarkBtn.nextSibling);
+        console.log('Progress button created dynamically');
+    }
+}
+
+// Fungsi inisialisasi panel progress
+function initProgressPanel() {
+    try {
+        addProgressButtonToToolbar(); // Langsung panggil, tanpa delay
+        console.log('✅ Progress Panel initialized');
+    } catch (error) {
+        console.error('Error initializing progress panel:', error);
+    }
+}
+
+// Expose functions for global access
+window.toggleProgressPanel = toggleProgressPanel;
+window.goToProgressSurah = goToProgressSurah;
+window.continueFromProgress = continueFromProgress;
+window.deleteProgressFromPanel = deleteProgressFromPanel;
+
+// Auto init panel progress
+(function() {
+    function tryInitPanel() {
+        if (document.body && document.head) {
+            setTimeout(() => {
+                initProgressPanel();
+            }, 100); // Kurangi delay ke 100ms
+            return true;
+        }
+        return false;
+    }
+    
+    // Sederhanakan init
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInitPanel);
+    } else {
+        tryInitPanel();
+    }
+})();
+
+console.log('✅ Progress Panel System Loaded!');
+
+
+</script>
 </body>
 </html>
