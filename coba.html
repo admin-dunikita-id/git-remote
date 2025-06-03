@@ -508,12 +508,15 @@
             background: #fafafa;
             transition: all 0.3s ease;
             position: relative;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
         }
 
         .ayah-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border-color: #667eea;
+            transform: translate3d(0, -3px, 0);
         }
 
         .ayah-card.highlight {
@@ -703,6 +706,8 @@
             height: 100%;
             width: 0%;
             transition: width 0.3s ease;
+            will-change: width;
+    transform: translate3d(0, 0, 0);
         }
 
         .statistics {
@@ -1159,6 +1164,311 @@
         .progress-stat-label {
             font-size: 0.8rem;
             color: #666;
+        }
+
+        /* TAMBAHAN CSS untuk Footnote dan Tafsir */
+        .footnote-section {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .footnote-section h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footnote-section p {
+            line-height: 1.6;
+            color: #424242;
+            font-size: 0.95rem;
+        }
+
+        /* PERBAIKAN 7: CSS tambahan untuk tafsir */
+/* PERBAIKAN 4: CSS yang lebih baik untuk tafsir */
+.tafsir-section {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid #ff9800;
+    margin-top: 15px;
+    display: none;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.tafsir-section.show {
+    display: block !important;
+    animation: slideInTafsir 0.4s ease;
+}
+
+.tafsir-section h4 {
+    color: #e65100;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    border-bottom: 2px solid #ffcc02;
+    padding-bottom: 8px;
+}
+
+.tafsir-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.tafsir-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tafsir-content::-webkit-scrollbar-track {
+    background: #ffe0b2;
+    border-radius: 3px;
+}
+
+.tafsir-content::-webkit-scrollbar-thumb {
+    background: #ff9800;
+    border-radius: 3px;
+}
+
+.tafsir-content p {
+    line-height: 1.7;
+    color: #3e2723;
+    font-size: 0.95rem;
+    text-align: justify;
+    text-indent: 20px;
+    margin-bottom: 12px;
+}
+
+.action-btn.tafsir-btn {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn.tafsir-btn:hover {
+    background: linear-gradient(135deg, #f57c00, #ef6c00);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.action-btn.tafsir-btn.active {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
+}
+
+@keyframes slideInTafsir {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .tafsir-section {
+        padding: 15px;
+    }
+    
+    .tafsir-content {
+        max-height: 250px;
+    }
+    
+    .tafsir-content p {
+        font-size: 0.9rem;
+        text-indent: 15px;
+    }
+}
+
+/* TAMBAHAN CSS untuk deskripsi surah yang bisa diklik */
+.surah-description {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+    padding: 0; /* Ubah dari 20px ke 0 */
+    margin: 20px 0;
+    border-radius: 12px;
+    border-left: 4px solid #4caf50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.surah-description-header {
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+}
+
+.surah-description-header:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+    transform: translateY(-1px);
+}
+
+.surah-description-header h5 {
+    color: #4caf50;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.surah-description-toggle {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    color: #4caf50;
+}
+
+.surah-description-toggle.expanded {
+    transform: rotate(180deg);
+}
+
+.surah-description-content {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.surah-description-content.show {
+    padding: 0 20px 20px 20px;
+    max-height: 500px;
+    opacity: 1;
+}
+
+.surah-description-content p {
+    margin: 0;
+    text-align: justify;
+    text-indent: 20px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+}
+
+.surah-description-content.show {
+    animation: expandDescription 0.4s ease forwards;
+}
+
+.surah-description-content:not(.show) {
+    animation: collapseDescription 0.4s ease forwards;
+}
+
+/* Dark theme */
+body.dark-theme .surah-description-header h5 {
+    color: #27ae60;
+}
+
+body.dark-theme .surah-description-toggle {
+    color: #27ae60;
+}
+
+body.dark-theme .surah-description-content p {
+    color: #ecf0f1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .surah-description-header {
+        padding: 15px;
+    }
+    
+    .surah-description-content.show {
+        padding: 0 15px 15px 15px;
+    }
+    
+    .surah-description-content p {
+        font-size: 0.9rem;
+        text-indent: 15px;
+    }
+}
+
+/* Animasi untuk smooth expand/collapse */
+@keyframes expandDescription {
+    from {
+        max-height: 0;
+        opacity: 0;
+        padding-bottom: 0;
+    }
+    to {
+        max-height: 500px;
+        opacity: 1;
+        padding-bottom: 20px;
+    }
+}
+
+@keyframes collapseDescription {
+    from {
+        max-height: 500px;
+        opacity: 1;
+        padding-bottom: 20px;
+    }
+    to {
+        max-height: 0;
+        opacity: 0;
+        padding-bottom: 0;
+    }
+}
+
+
+
+
+        .action-btn.footnote-btn {
+            background: #4caf50;
+            color: white;
+        }
+
+        .action-btn.footnote-btn:hover {
+            background: #45a049;
+        }
+
+        .action-btn.tafsir-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .action-btn.tafsir-btn:hover {
+            background: #f57c00;
+        }
+
+        .action-btn.active {
+            background: #2196f3;
+            color: white;
+        }
+
+        /* Responsive untuk mobile */
+        @media (max-width: 768px) {
+            .footnote-section,
+            .tafsir-section {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .footnote-section h4,
+            .tafsir-section h4 {
+                font-size: 0.95rem;
+            }
         }
 
 
@@ -1653,17 +1963,30 @@
                         <div class="toggle-switch active" onclick="toggleTranslation()" id="translationToggle"></div>
                     </div>
 
+                    <div class="setting-item">
+                        <span class="setting-label">Tampilkan Catatan Kaki</span>
+                        <div class="toggle-switch" onclick="toggleAllFootnotes()" id="footnotesToggle"></div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <span class="setting-label">Tampilkan Tafsir</span>
+                        <div class="toggle-switch" onclick="toggleAllTafsir()" id="tafsirToggle"></div>
+                    </div>
+
                     <div class="setting-item2">
                         <span class="setting-label">Pilih Bahasa Terjemah</span>
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                            Terjemahan dari QuranEnc.com
+                        </div>
                     </div>
                     <div class="setting-item">
                         <div class="language-selector">
-                            <button class="lang-btn active" onclick="setLanguage('id')">ID</button>
-                            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-                            <button class="lang-btn" onclick="setLanguage('my')">MY</button>
-                            <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
-                            <button class="lang-btn" onclick="setLanguage('de')">DE</button>
-                            <button class="lang-btn" onclick="setLanguage('tr')">TR</button>
+                            <button class="lang-btn active" onclick="setLanguage('id')" title="Bahasa Indonesia">ID</button>
+                            <button class="lang-btn" onclick="setLanguage('en')" title="English">EN</button>
+                            <button class="lang-btn" onclick="setLanguage('my')" title="Bahasa Melayu">MY</button>
+                            <button class="lang-btn" onclick="setLanguage('fr')" title="Français">FR</button>
+                            <button class="lang-btn" onclick="setLanguage('de')" title="Deutsch">DE</button>
+                            <button class="lang-btn" onclick="setLanguage('tr')" title="Türkçe">TR</button>
                         </div>
                     </div>
 
@@ -1774,6 +2097,7 @@ const tajwidData = {
     }
 };
 
+// 1. PERBAIKAN: Data quranData harus sebagai object, bukan function
 const quranData = {
     1: {
         name: "Al-Fatihah",
@@ -1782,37 +2106,37 @@ const quranData = {
         revelation: "Makkah",
         verses: {
             1: {
-                arabic: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ ۝١",
+                arabic: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ ۝١",
                 transliteration: "Bismillāhi'r-raḥmāni'r-raḥīm",
                 translation: "Dengan menyebut nama Allah Yang Maha Pemurah lagi Maha Penyayang."
             },
             2: {
-                arabic: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ ۝٢",
+                arabic: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ ۝٢",
                 transliteration: "Al-ḥamdu lillāhi rabbi'l-'ālamīn",
                 translation: "Segala puji bagi Allah, Tuhan semesta alam."
             },
             3: {
-                arabic: "الرَّحْمٰنِ الرَّحِيْمِۙ ۝٣",
+                arabic: "الرَّحْمٰنِ الرَّحِيْمِۙ ۝٣",
                 transliteration: "Ar-raḥmāni'r-raḥīm", 
                 translation: "Maha Pemurah lagi Maha Penyayang."
             },
             4: {
-                arabic: "مٰلِكِ يَوْمِ الدِّيْنِۗ ۝٤",
+                arabic: "مٰلِكِ يَوْمِ الدِّيْنِۗ ۝٤",
                 transliteration: "Māliki yawmi'd-dīn",
                 translation: "Yang menguasai di Hari Pembalasan."
             },
             5: {
-                arabic: "اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُۗ ۝٥",
+                arabic: "اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُۗ ۝٥",
                 transliteration: "Iyyāka na'budu wa iyyāka nasta'īn",
                 translation: "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami meminta pertolongan."
             },
             6: {
-                arabic: "اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَۙ ۝٦",
+                arabic: "اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَۙ ۝٦",
                 transliteration: "Ihdinaṣ-ṣirāṭal-mustaqīm",
                 translation: "Tunjukilah kami jalan yang lurus."
             },
             7: {
-                arabic: "صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ ەۙ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّاۤلِّيْنَࣖ ۝٧",
+                arabic: "صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ ەۙ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّاۤلِّيْنَࣖ ۝٧",
                 transliteration: "Ṣirāṭal-ladhīna an'amta 'alayhim ghayril-maghḍūbi 'alayhim wa laḍ-ḍāllīn",
                 translation: "(Yaitu) jalan orang-orang yang telah Engkau beri nikmat kepada mereka; bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat."
             }
@@ -1838,16 +2162,6 @@ const quranData = {
                 arabic: "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ",
                 transliteration: "Alladhīna yu'minūna bil-ghaybi wa yuqīmūnaṣ-ṣalāta wa mimmā razaqnāhum yunfiqūn",
                 translation: "(yaitu) mereka yang beriman kepada yang ghaib, yang mendirikan shalat, dan menafkahkan sebahagian rezeki yang Kami anugerahkan kepada mereka."
-            },
-            4: {
-                arabic: "وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ",
-                transliteration: "Wa alladhīna yu'minūna bimā unzila ilayka wa mā unzila min qablika wa bil-ākhirati hum yūqinūn",
-                translation: "Dan mereka yang beriman kepada kitab (Al Quran) yang telah diturunkan kepadamu dan kitab-kitab yang telah diturunkan sebelummu, serta mereka yakin akan adanya (kehidupan) akhirat."
-            },
-            5: {
-                arabic: "أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
-                transliteration: "Ulā'ika 'alā hudal mir rabbihim wa ulā'ika humul muflihūn",
-                translation: "Mereka itulah yang tetap mendapat petunjuk dari Tuhan mereka, dan merekalah orang-orang yang beruntung."
             }
         }
     },
@@ -1866,37 +2180,6 @@ const quranData = {
                 arabic: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ",
                 transliteration: "Allāhu lā ilāha illā huwal-ḥayy ul-qayyūm",
                 translation: "Allah, tidak ada Tuhan selain Dia Yang Hidup kekal lagi terus menerus mengurus (makhluk-Nya)."
-            },
-            3: {
-                arabic: "نَزَّلَ عَلَيْكَ الْكِتَابَ بِالْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ التَّوْرَاةَ وَالْإِنجِيلَ",
-                transliteration: "Nazzala 'alaykal kitāba bil haqqi muṣaddiqal limā bayna yadayhi wa anzalat tawrāta wal injīl",
-                translation: "Dia menurunkan Al Kitab (Al Quran) kepadamu dengan sebenarnya; membenarkan kitab yang telah diturunkan sebelumnya dan menurunkan Taurat dan Injil."
-            }
-        }
-    },
-    4: {
-        name: "An-Nisa",
-        arabicName: "النساء",
-        meaning: "Wanita",
-        revelation: "Madinah",
-        verses: {
-            1: {
-                arabic: "يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ",
-                transliteration: "Yā ayyuhan nāsuttaqū rabbakumul ladhī khalaqakum min nafsiw wāhidah",
-                translation: "Hai sekalian manusia, bertakwalah kepada Tuhan-mu yang telah menciptakan kamu dari seorang diri."
-            }
-        }
-    },
-    5: {
-        name: "Al-Ma'idah",
-        arabicName: "المائدة",
-        meaning: "Hidangan",
-        revelation: "Madinah",
-        verses: {
-            1: {
-                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ",
-                transliteration: "Yā ayyuhal ladhīna āmanū awfū bil 'uqūd",
-                translation: "Hai orang-orang yang beriman, penuhilah aqad-aqad itu."
             }
         }
     }
@@ -1911,21 +2194,28 @@ let searchResults = [];
 let autoPlayQueue = [];
 let currentAutoIndex = 0;
 let searchHistory = [];
-
+// Variabel global untuk backup functions
 let currentSurahProgress = null;
+let isProgressChanged = false;
+
+// Current state variables
 let currentSurahNumber = null;
 let maxReadingProgress = 0;
-let isProgressChanged = false;
+
 let originalLoadSurah = null;
 let originalPreviousSurah = null;
 let originalNextSurah = null;
+
+let isLoadingSurah = false;
 
 let currentSettings = {
     fontSize: 'medium',
     showTransliteration: true,
     showTranslation: true,
     showTajwid: false,
-    language: 'id',
+    showFootnotes: false,
+    showTafsir: false,
+    language: 'id', // Default Indonesian
     qari: 'abdul-basit',
     darkTheme: false
 };
@@ -2406,8 +2696,23 @@ function addNotificationStyles() {
     document.head.appendChild(style);
 }
 
+// PERBAIKAN: Notification system dengan anti-spam
+let lastNotificationTime = 0;
+let lastNotificationMessage = '';
+
 function showNotification(message, type = 'success') {
     try {
+        const now = Date.now();
+        
+        // PERBAIKAN: Cegah notification yang sama dalam 2 detik
+        if (message === lastNotificationMessage && (now - lastNotificationTime) < 2000) {
+            console.log('Duplicate notification blocked:', message);
+            return;
+        }
+        
+        lastNotificationTime = now;
+        lastNotificationMessage = message;
+        
         // Remove existing notifications of the same type
         const existing = document.querySelectorAll(`.notification-${type}`);
         existing.forEach(n => n.remove());
@@ -2415,9 +2720,7 @@ function showNotification(message, type = 'success') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         
-        // Set position and color based on type
         if (type === 'error') {
-            // Error notifications on the LEFT
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
@@ -2434,7 +2737,6 @@ function showNotification(message, type = 'success') {
                 word-wrap: break-word;
             `;
         } else {
-            // Success notifications on the RIGHT (default)
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
@@ -2452,14 +2754,13 @@ function showNotification(message, type = 'success') {
             `;
         }
         
-        // Add icon based on type
         const icon = type === 'error' ? '❌ ' : '✅ ';
         notification.textContent = icon + message;
         
         document.body.appendChild(notification);
         
-        // Auto remove after delay (longer for errors)
-        const delay = type === 'error' ? 5000 : 3000;
+        // PERBAIKAN: Kurangi delay auto remove
+        const delay = type === 'error' ? 4000 : 2000; // Kurangi dari 5000/3000 ke 4000/2000
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.style.animation = type === 'error' ? 'slideOutLeft 0.3s ease' : 'slideOutRight 0.3s ease';
@@ -2467,135 +2768,75 @@ function showNotification(message, type = 'success') {
             }
         }, delay);
         
-        console.log(`${type.toUpperCase()} Notification:`, message);
     } catch (error) {
         console.error('Error showing notification:', error);
     }
 }
 
-
-// Initialize app
-document.addEventListener('DOMContentLoaded', function() {
-    addNotificationStyles();
-    initializeAudioPlayer();
-    console.log('DOM loaded, initializing app...');
-    initBookmarks();
-    loadSettings();
-    loadSearchHistory();
-    updateBookmarkCount();
-    populateSurahSelect();
-    
-    // INISIALISASI PROGRESS BAR SYSTEM YANG BARU
-    initializeProgressBar();
-    
-    setupEventListeners();
-    updateAudioStatus(null);
-    
-    console.log('Enhanced app with working progress bar initialized!');
-});
-
 // Setup event listeners
 function setupEventListeners() {
-    // Surah selection change handler
-    const surahSelect = document.getElementById('surah');
-    if (surahSelect) {
-        surahSelect.addEventListener('change', function() {
-            console.log('Surah changed to:', this.value);
-            updateNavigationButtons();
-        });
-    }
-
-    // Load surah button
-    const loadBtn = document.getElementById('loadSurahBtn');
-    if (loadBtn) {
-        loadBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('Load button clicked');
-            loadSurah();
-        });
-    }
-
-    // Search input enter key
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchVerse();
-            }
-        });
-
-        searchInput.addEventListener('focus', () => {
-            const historyPanel = document.getElementById('searchHistory');
-            if (historyPanel) {
-                renderSearchHistory();
-                historyPanel.classList.add('show');
-            }
-        });
-
-        searchInput.addEventListener('blur', (e) => {
-            // Cek apakah yang akan difokuskan adalah elemen di dalam search area
-            const relatedTarget = e.relatedTarget;
-            if (relatedTarget) {
-                const searchContainer = document.getElementById('searchContainer');
-                const searchHistory = document.getElementById('searchHistory');
-                
-                // Jangan tutup jika yang diklik masih dalam area search
-                if ((searchContainer && searchContainer.contains(relatedTarget)) ||
-                    (searchHistory && searchHistory.contains(relatedTarget))) {
-                    return;
-                }
-            }
-
-    // Close search container when clicking outside
-    setTimeout(() => {
-                // Cek lagi apakah focus masih dalam area search
-                const activeElement = document.activeElement;
-                const searchContainer = document.getElementById('searchContainer');
-                const searchHistory = document.getElementById('searchHistory');
-                
-                if (!((searchContainer && searchContainer.contains(activeElement)) ||
-                      (searchHistory && searchHistory.contains(activeElement)))) {
-                    const historyPanel = document.getElementById('searchHistory');
-                    if (historyPanel) {
-                        historyPanel.classList.remove('show');
-                    }
-                }
-            }, 200);
-        });
-    }
-
-        // IMPROVED CLICK OUTSIDE DETECTION
-        document.addEventListener('click', function (e) {
-        const searchContainer = document.getElementById('searchContainer');
-        const searchBtn = document.querySelector('.search-container button');
-        const searchHistory = document.getElementById('searchHistory');
-        
-        // Jangan tutup jika klik di dalam area search atau history
-        if (searchContainer && searchContainer.contains(e.target)) return;
-        if (searchBtn && searchBtn.contains(e.target)) return;
-        if (searchHistory && searchHistory.contains(e.target)) return;
-        
-        // Tutup panel jika benar-benar klik di luar
-        if (searchContainer) searchContainer.classList.remove('show');
-        if (searchHistory) searchHistory.classList.remove('show');
-    });
-
-    // Close panels on escape key
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            closeAllPanels();
+    try {
+        // Surah selection change handler
+        const surahSelect = document.getElementById('surah');
+        if (surahSelect) {
+            surahSelect.addEventListener('change', function() {
+                console.log('Surah changed to:', this.value);
+                updateNavigationButtons();
+            });
         }
-    });
 
-    function addProgressEventListeners() {
-    // Event listener untuk resize window
-    window.addEventListener('resize', handleProgressOnResize);
-    
-    // Event listener untuk orientasi change (mobile)
-    window.addEventListener('orientationchange', () => {
-        setTimeout(handleProgressOnResize, 300);
-    });
-}
+        // Load surah button
+        const loadBtn = document.getElementById('loadSurahBtn');
+        if (loadBtn) {
+            loadBtn.onclick = function(e) {
+                e.preventDefault();
+                console.log('Load button clicked');
+                loadSurah();
+            };
+        }
+
+        // Previous button
+        const prevBtn = document.getElementById('prevBtn');
+        if (prevBtn) {
+            prevBtn.onclick = function(e) {
+                e.preventDefault();
+                console.log('Previous button clicked');
+                previousSurah();
+            };
+        }
+
+        // Next button
+        const nextBtn = document.getElementById('nextBtn');
+        if (nextBtn) {
+            nextBtn.onclick = function(e) {
+                e.preventDefault();
+                console.log('Next button clicked');
+                nextSurah();
+            };
+        }
+
+        // Search input enter key
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchVerse();
+                }
+            });
+
+            searchInput.addEventListener('focus', () => {
+                const historyPanel = document.getElementById('searchHistory');
+                if (historyPanel) {
+                    renderSearchHistory();
+                    historyPanel.classList.add('show');
+                }
+            });
+        }
+
+        console.log('✅ Event listeners setup completed');
+    } catch (error) {
+        console.error('Error setting up event listeners:', error);
+    }
 }
 
 // PERBAIKAN 9: Fungsi khusus untuk scroll ke bagian tertentu
@@ -2751,24 +2992,153 @@ function populateSurahSelect() {
         defaultOption.textContent = 'Pilih Surah...';
         select.appendChild(defaultOption);
         
+        // Get available surahs from quranData
+        const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+        console.log('Populating select with surahs:', availableSurahs);
+        
         // Add surah options
-        Object.keys(quranData).forEach(num => {
-            const surah = quranData[num];
-            const option = document.createElement('option');
-            option.value = num;
-            option.textContent = `${num}. ${surah.name} (${surah.arabicName})`;
-            select.appendChild(option);
+        availableSurahs.forEach(surahNum => {
+            const surah = quranData[surahNum];
+            if (surah) {
+                const option = document.createElement('option');
+                option.value = surahNum;
+                option.textContent = `${surahNum}. ${surah.name} (${surah.arabicName})`;
+                select.appendChild(option);
+            }
         });
         
-        console.log('Surah select populated with', Object.keys(quranData).length, 'surahs');
+        console.log(`Surah select populated with ${availableSurahs.length} surahs`);
+        
+        // Initial navigation buttons update
         updateNavigationButtons();
     } catch (error) {
         console.error('Error populating surah select:', error);
     }
 }
 
-// Load surah
-function loadSurah() {
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', function(e) {
+        // Jangan jalankan shortcut jika sedang mengetik di input field
+        if (e.target.matches('input, textarea, select')) {
+            return;
+        }
+        
+        // Arrow keys untuk navigasi
+        if (e.key === 'ArrowLeft' && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            previousSurah();
+        } else if (e.key === 'ArrowRight' && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            nextSurah();
+        }
+        
+        // Ctrl/Cmd + Arrow untuk navigasi dengan modifier
+        if ((e.ctrlKey || e.metaKey) && e.key === 'ArrowLeft') {
+            e.preventDefault();
+            previousSurah();
+        } else if ((e.ctrlKey || e.metaKey) && e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextSurah();
+        }
+    });
+    
+    console.log('✅ Keyboard shortcuts for navigation setup completed');
+}
+
+// 8. PERBAIKAN: Update setupEventListeners untuk include navigation
+function setupEventListenersWithNavigation() {
+    try {
+        // Setup basic event listeners
+        setupEventListeners();
+        
+        // Setup navigation event listeners
+        setupNavigationEventListeners();
+        
+        // Setup keyboard shortcuts
+        setupKeyboardShortcuts();
+        
+        console.log('✅ All event listeners with navigation setup completed');
+    } catch (error) {
+        console.error('Error setting up event listeners with navigation:', error);
+    }
+}
+
+// 9. PERBAIKAN: Override navigation functions dalam progress system
+function overrideNavigationFunctionsForProgress() {
+    try {
+        // Backup original functions jika belum di-backup
+        if (typeof previousSurah === 'function' && !window.originalPreviousSurah) {
+            window.originalPreviousSurah = previousSurah;
+            window.previousSurah = previousSurahWithProgressConfirm;
+            console.log('previousSurah function overridden for progress system');
+        }
+        
+        if (typeof nextSurah === 'function' && !window.originalNextSurah) {
+            window.originalNextSurah = nextSurah;
+            window.nextSurah = nextSurahWithProgressConfirm;
+            console.log('nextSurah function overridden for progress system');
+        }
+        
+        // Update event listeners untuk tombol navigasi dengan functions yang baru
+        setTimeout(() => {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (prevBtn) {
+                prevBtn.onclick = null;
+                prevBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof previousSurah === 'function') {
+                        previousSurah();
+                    }
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.onclick = null;
+                nextBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof nextSurah === 'function') {
+                        nextSurah();
+                    }
+                });
+            }
+            
+            console.log('✅ Navigation functions updated for progress system');
+        }, 100);
+        
+    } catch (error) {
+        console.error('Error overriding navigation functions for progress:', error);
+    }
+}
+
+// 10. PERBAIKAN: Inisialisasi lengkap untuk navigation
+function initializeNavigationSystem() {
+    try {
+        console.log('Initializing Navigation System...');
+        
+        // Setup event listeners
+        setupNavigationEventListeners();
+        
+        // Setup keyboard shortcuts
+        setupKeyboardShortcuts();
+        
+        // Update navigation buttons
+        updateNavigationButtons();
+        
+        // Override untuk progress system (dengan delay)
+        setTimeout(() => {
+            overrideNavigationFunctionsForProgress();
+        }, 2500);
+        
+        console.log('✅ Navigation System initialized successfully');
+    } catch (error) {
+        console.error('Error initializing navigation system:', error);
+    }
+}
+
+// 1. FUNGSI LOADSURAH DIRECT (TANPA PROGRESS CONFIRMATION)
+function loadSurahDirect() {
     try {
         const surahSelect = document.getElementById('surah');
         const surahNumber = parseInt(surahSelect.value);
@@ -2779,6 +3149,7 @@ function loadSurah() {
         }
         
         currentSurah = surahNumber;
+        currentSurahNumber = surahNumber;
         
         const surah = quranData[surahNumber];
         if (!surah) {
@@ -2786,14 +3157,14 @@ function loadSurah() {
             return;
         }
 
-        // RESET PROGRESS SEBELUM LOAD SURAH BARU
+        // Reset progress sebelum load surah baru
         resetProgress();
 
         // Update audio button
         const playBtn = document.getElementById('playAudioBtn');
-        if (playBtn && quranData[currentSurah]) {
+        if (playBtn) {
             playBtn.disabled = false;
-            playBtn.textContent = `▶️ Putar Surah ${quranData[currentSurah].name}`;
+            playBtn.textContent = `▶️ Putar Surah ${surah.name}`;
         }
 
         updateAudioStatus(currentSurah);
@@ -2825,6 +3196,68 @@ function loadSurah() {
     } catch (error) {
         console.error('Error loading surah:', error);
         showError('Terjadi kesalahan saat memuat surah');
+    }
+}
+
+// 8. PERBAIKAN: Fungsi loadSurah normal tanpa konfirmasi progress
+function loadSurah() {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) {
+            showError('Surah select not found');
+            return;
+        }
+        
+        const newSurahNumber = parseInt(surahSelect.value);
+        
+        if (!newSurahNumber || isNaN(newSurahNumber)) {
+            showError('Silakan pilih surah terlebih dahulu');
+            return;
+        }
+        
+        // Fungsi untuk melanjutkan load surah baru
+        const proceedToNewSurah = () => {
+            currentSurahNumber = newSurahNumber;
+            
+            // Cek apakah surah baru memiliki progress tersimpan
+            if (hasSavedProgress(newSurahNumber)) {
+                const savedProgress = loadProgressForSurah(newSurahNumber);
+                
+                // Tampilkan modal konfirmasi untuk melanjutkan atau mulai dari awal
+                showContinueProgressModal(newSurahNumber, savedProgress, () => {
+                    // PERBAIKAN: Gunakan loadSurahDirect(), BUKAN loadSurah()
+                    loadSurahDirect();
+                    currentSurah = newSurahNumber;
+                });
+            } else {
+                // Surah baru, mulai dari 0%
+                maxReadingProgress = 0;
+                updateProgressBarDisplay();
+                
+                // PERBAIKAN: Gunakan loadSurahDirect(), BUKAN loadSurah()
+                loadSurahDirect();
+                currentSurah = newSurahNumber;
+            }
+        };
+        
+        // Jika ada surah sebelumnya dengan progress > 0, tanya save/delete
+        if (currentSurahNumber && currentSurahNumber !== newSurahNumber && maxReadingProgress > 0) {
+            showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToNewSurah);
+        } else {
+            // Langsung ke surah baru
+            proceedToNewSurah();
+        }
+    } catch (error) {
+        console.error('Error in loadSurah:', error);
+        showError('Terjadi kesalahan saat memuat surah');
+    }
+}
+
+function pauseAudio() {
+    if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        const playBtn = document.getElementById('playPauseBtn');
+        if (playBtn) playBtn.textContent = '▶️';
     }
 }
 
@@ -2963,14 +3396,6 @@ function toggleTranslation() {
     saveSettings();
 }
 
-// Set language
-function setLanguage(lang) {
-    currentSettings.language = lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    const activeBtn = document.querySelector(`[onclick="setLanguage('${lang}')"]`);
-    if (activeBtn) activeBtn.classList.add('active');
-    saveSettings();
-}
 
 // Toggle settings panel
 function toggleSettings() {
@@ -3118,7 +3543,7 @@ function displaySearchResults() {
     container.innerHTML = html;
 }
 
-// Go to specific verse
+// PERBAIKAN: Go to verse tanpa delay berlebihan
 function goToVerse(surahNum, verseNum) {
     const surahSelect = document.getElementById('surah');
     if (surahSelect) {
@@ -3126,28 +3551,26 @@ function goToVerse(surahNum, verseNum) {
         currentSurah = surahNum;
         loadSurah();
         
+        // Kurangi delay dari 1000ms ke 500ms
         setTimeout(() => {
             const element = document.getElementById(`ayah-${surahNum}-${verseNum}`);
             if (element) {
-                // Scroll ke ayah dengan offset yang lebih baik
                 const elementTop = element.offsetTop;
-                const offset = 120; // Offset dari atas
+                const offset = 100; // Kurangi offset dari 120 ke 100
                 
                 window.scrollTo({
                     top: elementTop - offset,
                     behavior: 'smooth'
                 });
                 
-                // Highlight ayah
+                // Highlight langsung
                 element.classList.add('highlight');
-                setTimeout(() => element.classList.remove('highlight'), 4000);
+                setTimeout(() => element.classList.remove('highlight'), 2000);
                 
-                // Update progress setelah scroll
-                setTimeout(() => {
-                    updateReadingProgress();
-                }, 1000);
+                // Update progress tanpa delay tambahan
+                updateReadingProgressFast();
             }
-        }, 1000); // Delay lebih lama untuk memastikan rendering selesai
+        }, 500); // Kurangi dari 1000ms ke 500ms
     }
 }
 
@@ -3160,14 +3583,10 @@ function initializeProgressBar() {
     
     // Force update progress setelah DOM benar-benar ready
     if (document.readyState === 'complete') {
-        setTimeout(() => {
-            updateReadingProgress();
-        }, 1500);
+        setTimeout(updateReadingProgressFast, 100); // Kurangi dari 1500ms ke 100ms
     } else {
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                updateReadingProgress();
-            }, 1500);
+            setTimeout(updateReadingProgressFast, 100);
         });
     }
     
@@ -3204,6 +3623,7 @@ function initializeProgressBar() {
     }
     
     console.log('Progress Bar System initialized successfully');
+    console.log('Optimized Progress Bar initialized');
 }
 
 // 10. FUNGSI UNTUK FORCE UPDATE PROGRESS (UNTUK DEBUGGING)
@@ -3236,34 +3656,44 @@ function resetProgress() {
 
 // Bookmark functions
 function toggleBookmark(surahNum, verseNum) {
-    const index = bookmarks.findIndex(b => b.surah === surahNum && b.verse === verseNum);
-    
-    if (index > -1) {
-        bookmarks.splice(index, 1);
-        showSuccess('Bookmark berhasil dihapus'); // SUCCESS - RIGHT SIDE
-    } else {
-        const surah = quranData[surahNum];
-        if (surah && surah.verses[verseNum]) {
+    try {
+        const index = bookmarks.findIndex(b => b.surah === surahNum && b.verse === verseNum);
+        
+        if (index > -1) {
+            bookmarks.splice(index, 1);
+            showSuccess('Bookmark berhasil dihapus');
+        } else {
+            const verse = quranData[surahNum].verses[verseNum]; // Langsung dari quranData
+            if (!verse) {
+                showError('Ayat tidak ditemukan');
+                return;
+            }
+            
             bookmarks.push({
                 surah: surahNum,
                 verse: verseNum,
-                surahName: surah.name,
-                text: surah.verses[verseNum].translation
+                surahName: quranData[surahNum].name,
+                text: verse.translation || 'Terjemahan tidak tersedia'
             });
-            showSuccess('Bookmark berhasil ditambahkan'); // SUCCESS - RIGHT SIDE
+            showSuccess('Bookmark berhasil ditambahkan');
         }
-    }
-    
-    try {
-        localStorage.setItem('quranBookmarks', JSON.stringify(bookmarks));
+        
+        // Save to localStorage
+        try {
+            localStorage.setItem('quranBookmarks', JSON.stringify(bookmarks));
+        } catch (error) {
+            console.error('Error saving bookmarks:', error);
+            showError('Gagal menyimpan bookmark');
+        }
+        
+        updateBookmarkCount();
+        updateBookmarkButton(surahNum, verseNum);
+        displayBookmarks();
+        
     } catch (error) {
-        console.error('Error saving bookmarks:', error);
-        showError('Gagal menyimpan bookmark'); // ERROR - LEFT SIDE
+        console.error('Error toggling bookmark:', error);
+        showError('Gagal mengatur bookmark');
     }
-    
-    updateBookmarkCount();
-    updateBookmarkButton(surahNum, verseNum);
-    displayBookmarks();
 }
 
 function updateBookmarkButton(surahNum, verseNum) {
@@ -3517,22 +3947,6 @@ function initializeAudioPlayer() {
 }
 
 // Utility functions
-function copyVerse(surahNum, verseNum) {
-    const verse = quranData[surahNum].verses[verseNum];
-    const surah = quranData[surahNum];
-    const text = `${surah.name} - Ayat ${verseNum}\n\n${verse.arabic}\n\n${verse.transliteration}\n\n${verse.translation}`;
-    
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification('Ayat berhasil disalin!');
-        }).catch(() => {
-            // Fallback for older browsers
-            fallbackCopyText(text);
-        });
-    } else {
-        fallbackCopyText(text);
-    }
-}
 
 function fallbackCopyText(text) {
     const textArea = document.createElement('textarea');
@@ -3585,76 +3999,282 @@ function highlightVerse(surahNum, verseNum) {
 
 // Navigation functions
 function previousSurah() {
-    const surahSelect = document.getElementById('surah');
-    const currentValue = parseInt(surahSelect.value);
-    
-    if (currentValue && currentValue > 1) {
-        const surahKeys = Object.keys(quranData).map(Number).sort((a, b) => a - b);
-        const currentIndex = surahKeys.indexOf(currentValue);
-        if (currentIndex > 0) {
-            const prevSurah = surahKeys[currentIndex - 1];
-            surahSelect.value = prevSurah;
-            currentSurah = prevSurah;
-            resetProgress(); // Reset progress dulu
-            loadSurah();
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        const currentValue = parseInt(surahSelect.value);
+        
+        if (currentValue && currentValue > 1) {
+            const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = availableSurahs.indexOf(currentValue);
+            
+            if (currentIndex > 0) {
+                const prevSurah = availableSurahs[currentIndex - 1];
+                
+                // Fungsi untuk pindah ke surah sebelumnya
+                const proceedToPrevSurah = () => {
+                    surahSelect.value = prevSurah;
+                    updateNavigationButtons();
+                    
+                    // PERBAIKAN: Gunakan loadSurah() yang sudah smart
+                    loadSurah();
+                };
+                
+                // Jika ada progress pada surah saat ini, tanya save/delete
+                if (currentSurahNumber && maxReadingProgress > 0) {
+                    showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToPrevSurah);
+                } else {
+                    proceedToPrevSurah();
+                }
+            } else {
+                showWarning('⚠️ Sudah di surah pertama yang tersedia');
+            }
+        } else {
+            showWarning('⚠️ Pilih surah terlebih dahulu');
         }
+    } catch (error) {
+        console.error('Error in previousSurah:', error);
+        showError('❌ Gagal pindah ke surah sebelumnya');
     }
 }
 
-// 7. GANTI FUNGSI nextSurah() DENGAN INI
 function nextSurah() {
-    const surahSelect = document.getElementById('surah');
-    const currentValue = parseInt(surahSelect.value);
-    
-    if (currentValue) {
-        const surahKeys = Object.keys(quranData).map(Number).sort((a, b) => a - b);
-        const currentIndex = surahKeys.indexOf(currentValue);
-        if (currentIndex < surahKeys.length - 1) {
-            const nextSurah = surahKeys[currentIndex + 1];
-            surahSelect.value = nextSurah;
-            currentSurah = nextSurah;
-            resetProgress(); // Reset progress dulu
-            loadSurah();
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        const currentValue = parseInt(surahSelect.value);
+        
+        if (currentValue) {
+            const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = availableSurahs.indexOf(currentValue);
+            
+            if (currentIndex < availableSurahs.length - 1) {
+                const nextSurahNum = availableSurahs[currentIndex + 1];
+                
+                // Fungsi untuk pindah ke surah selanjutnya
+                const proceedToNextSurah = () => {
+                    surahSelect.value = nextSurahNum;
+                    updateNavigationButtons();
+                    
+                    // PERBAIKAN: Gunakan loadSurah() yang sudah smart
+                    loadSurah();
+                };
+                
+                // Jika ada progress pada surah saat ini, tanya save/delete
+                if (currentSurahNumber && maxReadingProgress > 0) {
+                    showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToNextSurah);
+                } else {
+                    proceedToNextSurah();
+                }
+            } else {
+                showWarning('⚠️ Sudah di surah terakhir yang tersedia');
+            }
+        } else {
+            showWarning('⚠️ Pilih surah terlebih dahulu');
         }
+    } catch (error) {
+        console.error('Error in nextSurah:', error);
+        showError('❌ Gagal pindah ke surah selanjutnya');
+    }
+}
+
+// 4. FUNGSI OVERRIDE YANG AMAN - TIDAK PERLU OVERRIDE KARENA SUDAH JADI DEFAULT
+function initPerSurahProgressSystemFixed() {
+    try {
+        console.log('Initializing Per-Surah Progress System (Fixed)...');
+        
+        // Setup scroll listener
+        setupPerSurahProgressListener();
+        
+        // TIDAK PERLU OVERRIDE - loadSurah() sudah smart dengan progress confirmation
+        console.log('loadSurah() is now smart - no override needed');
+        
+        // Reset progress bar
+        maxReadingProgress = 0;
+        currentSurahNumber = null;
+        updateProgressBarDisplay();
+        
+        console.log('✅ Per-Surah Progress System (Fixed) initialized');
+    } catch (error) {
+        console.error('Error initializing per-surah progress system:', error);
+    }
+}
+
+// 5. FUNGSI UPDATE EVENT LISTENERS - TIDAK PERLU KARENA SUDAH DEFAULT
+function updateEventListenersForProgress() {
+    try {
+        console.log('Event listeners already use default loadSurah() - no update needed');
+        console.log('✅ Event listeners are already correct');
+    } catch (error) {
+        console.error('Error updating event listeners:', error);
+    }
+}
+
+// 6. FUNGSI UNTUK GO TO PROGRESS SURAH (UNTUK PANEL PROGRESS)
+function goToProgressSurahFixed(surahNumber, progress) {
+    try {
+        const surahSelect = document.getElementById('surah');
+        if (!surahSelect) return;
+        
+        // Tutup panel progress
+        toggleProgressPanel();
+        
+        // Set surah di select
+        surahSelect.value = surahNumber;
+        
+        // Set progress yang akan digunakan
+        currentSurahNumber = surahNumber;
+        maxReadingProgress = progress;
+        
+        // PERBAIKAN: Gunakan loadSurahDirect langsung tanpa confirmation
+        loadSurahDirect();
+        
+        // Update currentSurah global
+        currentSurah = surahNumber;
+        
+        // Update progress bar display
+        setTimeout(() => {
+            updateProgressBarDisplay();
+            
+            // Scroll ke posisi progress
+            setTimeout(() => {
+                scrollToProgressPosition(progress);
+                safeShowSuccess(`📖 Membuka ${getSurahName(surahNumber)} di progress ${progress}%`);
+            }, 1000);
+        }, 500);
+        
+    } catch (error) {
+        console.error('Error going to progress surah:', error);
+        safeShowError('Gagal membuka surah');
     }
 }
 
 function updateNavigationButtons() {
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const surahSelect = document.getElementById('surah');
-    const selectedSurah = parseInt(surahSelect.value);
-
-    if (selectedSurah && prevBtn && nextBtn) {
-        const surahKeys = Object.keys(quranData).map(Number).sort((a, b) => a - b);
-        const currentIndex = surahKeys.indexOf(selectedSurah);
-        const prevSurahKey = surahKeys[currentIndex - 1];
-        const nextSurahKey = surahKeys[currentIndex + 1];
-
-        if (prevSurahKey && quranData[prevSurahKey]) {
-            prevBtn.textContent = `← ${quranData[prevSurahKey].name}`;
-            prevBtn.disabled = false;
-        } else {
-            prevBtn.textContent = '← Surah Pertama';
-            prevBtn.disabled = true;
+    try {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const surahSelect = document.getElementById('surah');
+        
+        if (!surahSelect) {
+            console.error('Surah select not found for navigation update');
+            return;
         }
+        
+        const selectedSurah = parseInt(surahSelect.value);
+        console.log('Updating navigation for surah:', selectedSurah);
 
-        if (nextSurahKey && quranData[nextSurahKey]) {
-            nextBtn.textContent = `${quranData[nextSurahKey].name} →`;
-            nextBtn.disabled = false;
+        if (selectedSurah && prevBtn && nextBtn) {
+            // Dapatkan daftar surah yang tersedia
+            const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = availableSurahs.indexOf(selectedSurah);
+            
+            // Update previous button
+            if (currentIndex > 0) {
+                const prevSurahKey = availableSurahs[currentIndex - 1];
+                if (quranData[prevSurahKey]) {
+                    prevBtn.textContent = `← ${quranData[prevSurahKey].name}`;
+                    prevBtn.disabled = false;
+                    prevBtn.title = `Pindah ke ${quranData[prevSurahKey].name}`;
+                }
+            } else {
+                prevBtn.textContent = '← Surah Pertama';
+                prevBtn.disabled = true;
+                prevBtn.title = 'Sudah di surah pertama';
+            }
+
+            // Update next button
+            if (currentIndex < availableSurahs.length - 1) {
+                const nextSurahKey = availableSurahs[currentIndex + 1];
+                if (quranData[nextSurahKey]) {
+                    nextBtn.textContent = `${quranData[nextSurahKey].name} →`;
+                    nextBtn.disabled = false;
+                    nextBtn.title = `Pindah ke ${quranData[nextSurahKey].name}`;
+                }
+            } else {
+                nextBtn.textContent = 'Surah Terakhir →';
+                nextBtn.disabled = true;
+                nextBtn.title = 'Sudah di surah terakhir';
+            }
         } else {
-            nextBtn.textContent = 'Surah Terakhir →';
-            nextBtn.disabled = true;
+            // Reset buttons jika tidak ada surah yang dipilih
+            if (prevBtn) {
+                prevBtn.textContent = '← Surah Sebelumnya';
+                prevBtn.disabled = true;
+                prevBtn.title = 'Pilih surah terlebih dahulu';
+            }
+            if (nextBtn) {
+                nextBtn.textContent = 'Surah Selanjutnya →';
+                nextBtn.disabled = true;
+                nextBtn.title = 'Pilih surah terlebih dahulu';
+            }
         }
-    } else {
+        
+        console.log('Navigation buttons updated successfully');
+    } catch (error) {
+        console.error('Error updating navigation buttons:', error);
+    }
+}
+
+// SETUP EVENT LISTENERS UNTUK NAVIGATION
+function setupNavigationEventListeners() {
+    try {
+        console.log('Setting up navigation event listeners...');
+
+        // Previous button
+        const prevBtn = document.getElementById('prevBtn');
         if (prevBtn) {
-            prevBtn.textContent = '← Surah Sebelumnya';
-            prevBtn.disabled = true;
+            // Remove existing event listeners
+            prevBtn.onclick = null;
+            const newPrevBtn = prevBtn.cloneNode(true);
+            prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+            
+            // Add new event listener
+            newPrevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Previous button clicked');
+                previousSurah();
+            });
+            console.log('✅ Previous button event listener attached');
+        } else {
+            console.warn('Previous button not found');
         }
+
+        // Next button
+        const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
-            nextBtn.textContent = 'Surah Selanjutnya →';
-            nextBtn.disabled = true;
+            // Remove existing event listeners
+            nextBtn.onclick = null;
+            const newNextBtn = nextBtn.cloneNode(true);
+            nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+            
+            // Add new event listener
+            newNextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Next button clicked');
+                nextSurah();
+            });
+            console.log('✅ Next button event listener attached');
+        } else {
+            console.warn('Next button not found');
         }
+
+        // Surah selection change handler
+        const surahSelect = document.getElementById('surah');
+        if (surahSelect) {
+            surahSelect.addEventListener('change', function() {
+                console.log('Surah selection changed to:', this.value);
+                updateNavigationButtons();
+            });
+            console.log('✅ Surah select change listener attached');
+        } else {
+            console.warn('Surah select not found');
+        }
+        
+        console.log('✅ All navigation event listeners setup completed');
+    } catch (error) {
+        console.error('Error setting up navigation event listeners:', error);
     }
 }
 
@@ -3684,45 +4304,95 @@ function updateStatistics() {
     }
 }
 
-// Scroll functions
+// PERBAIKAN: Setup scroll handler yang lebih efisien
 function setupScrollHandler() {
-    let ticking = false;
+    let scrollTimeout;
+    let isUpdating = false;
     
     function updateOnScroll() {
+        if (isUpdating) return;
+        isUpdating = true;
+        
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollBtn = document.getElementById('scrollTopBtn');
         
-        // Update scroll to top button
+        // Update scroll to top button (langsung tanpa delay)
         if (scrollBtn) {
             scrollBtn.style.display = scrollTop > 500 ? 'block' : 'none';
         }
         
-        // Update reading progress
-        updateReadingProgress();
+        // Update reading progress (langsung)
+        updateReadingProgressFast();
         
-        ticking = false;
+        isUpdating = false;
     }
     
-    // Event scroll dengan throttling
+    // Gunakan throttle yang lebih ringan
     window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(updateOnScroll);
-            ticking = true;
-        }
+        if (scrollTimeout) return;
+        
+        scrollTimeout = requestAnimationFrame(() => {
+            updateOnScroll();
+            scrollTimeout = null;
+        });
     }, { passive: true });
     
-    // Event resize untuk update progress
-    window.addEventListener('resize', () => {
+    console.log('Optimized scroll handler setup');
+}
+
+// PERBAIKAN: Update progress yang lebih cepat tanpa delay
+function updateReadingProgressFast() {
+    try {
+        const progressFill = document.getElementById('progressFill');
+        const progressElement = document.getElementById('readingProgress');
+        
+        if (!progressFill || !progressElement) return;
+        
+        const ayahCards = document.querySelectorAll('.ayah-card');
+        if (ayahCards.length === 0) {
+            progressFill.style.width = '0%';
+            progressElement.textContent = '0%';
+            return;
+        }
+        
+        const windowHeight = window.innerHeight;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const viewportCenter = scrollTop + (windowHeight * 0.3); // Ubah dari 0.5 ke 0.3 untuk lebih responsif
+        
+        let readAyahs = 0;
+        
+        // Optimasi: hitung hanya yang visible
+        ayahCards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            if (rect.top + scrollTop < viewportCenter) {
+                readAyahs++;
+            }
+        });
+        
+        const progress = Math.min(100, Math.max(0, Math.floor((readAyahs / ayahCards.length) * 100)));
+        
+        // Update langsung tanpa transisi untuk responsivitas
+        progressFill.style.transition = 'none';
+        progressFill.style.width = progress + '%';
+        progressElement.textContent = progress + '%';
+        
+        // Restore transisi setelah update
         setTimeout(() => {
-            updateReadingProgress();
-        }, 300);
-    });
-    
-    // Initial progress update setelah DOM ready
-    setTimeout(() => {
-        updateReadingProgress();
-        console.log('Progress bar initialized successfully');
-    }, 1000);
+            progressFill.style.transition = 'width 0.1s ease';
+        }, 0);
+        
+        // Update progress per surah jika diperlukan
+        if (currentSurahNumber && progress > maxReadingProgress) {
+            maxReadingProgress = progress;
+            // Silent save tanpa blocking
+            setTimeout(() => {
+                saveProgressForSurah(currentSurahNumber, maxReadingProgress);
+            }, 0);
+        }
+        
+    } catch (error) {
+        console.error('Error in fast progress update:', error);
+    }
 }
 
 function updateReadingProgress() {
@@ -3783,7 +4453,6 @@ function scrollToTop() {
     });
 }
 
-// Close all panels
 // Close all panels
 function closeAllPanels() {
     try {
@@ -3914,8 +4583,8 @@ function addAudioPlayerStyles() {
             gap: 15px;
             z-index: 10000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
         }
 
         .modern-audio-player.show {
@@ -4508,18 +5177,74 @@ function updateAudioStatus(surahNumber) {
     const statusEl = document.getElementById('audioStatus');
     if (!statusEl) return;
 
-    const surah = quranData[surahNumber];
-    if (!surah) {
+    if (!surahNumber || !quranData[surahNumber]) {
         statusEl.textContent = '🔇 Tidak ada audio yang tersedia';
         return;
     }
 
-    const audioUrl = getAudioUrl(surahNumber, 1); // Cek ayat 1
-    if (!audioUrl || typeof audioUrl !== 'string' || audioUrl.includes('undefined')) {
-        statusEl.textContent = `🔇 Audio tidak tersedia untuk surah ${surah.name}`;
-    } else {
-        statusEl.textContent = `🔊 Audio tersedia untuk surah ${surah.name}`;
+    const surah = quranData[surahNumber];
+    statusEl.textContent = `🔊 Audio tersedia untuk ${surah.name}`;
+}
+
+// 4. PERBAIKAN: Fungsi copyVerse yang hilang
+function copyVerse(surahNum, verseNum) {
+    try {
+        const verse = quranData[surahNum].verses[verseNum];
+        const surah = quranData[surahNum];
+        const text = `${surah.name} - Ayat ${verseNum}\n\n${verse.arabic}\n\n${verse.transliteration}\n\n${verse.translation}`;
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Ayat berhasil disalin!');
+            }).catch(() => {
+                fallbackCopyText(text);
+            });
+        } else {
+            fallbackCopyText(text);
+        }
+    } catch (error) {
+        console.error('Error copying verse:', error);
+        showError('Gagal menyalin ayat');
     }
+}
+
+// 5. PERBAIKAN: Fungsi setLanguage dan toggleAllFootnotes yang hilang
+function setLanguage(lang) {
+    currentSettings.language = lang;
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    const activeBtn = document.querySelector(`[onclick="setLanguage('${lang}')"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    saveSettings();
+    showSuccess(`Bahasa diubah ke ${lang.toUpperCase()}`);
+}
+
+function toggleAllFootnotes() {
+    currentSettings.showFootnotes = !currentSettings.showFootnotes;
+    const toggle = document.getElementById('footnotesToggle');
+    if (toggle) toggle.classList.toggle('active');
+    
+    document.querySelectorAll('.footnote-section').forEach(el => {
+        el.style.display = currentSettings.showFootnotes ? 'block' : 'none';
+    });
+    
+    saveSettings();
+}
+
+function toggleAllTafsir() {
+    currentSettings.showTafsir = !currentSettings.showTafsir;
+    const toggle = document.getElementById('tafsirToggle');
+    if (toggle) toggle.classList.toggle('active');
+    
+    document.querySelectorAll('.tafsir-section').forEach(el => {
+        el.style.display = currentSettings.showTafsir ? 'block' : 'none';
+    });
+    
+    saveSettings();
 }
 
 // ===== SISTEM PROGRESS PER SURAH =====
@@ -4527,45 +5252,33 @@ function updateAudioStatus(surahNumber) {
 // CSS untuk modal progress per surah
 // Fungsi untuk menampilkan notifikasi (fallback jika showSuccess tidak ada)
 function safeShowSuccess(message) {
-    if (typeof showSuccess === 'function') {
-        showSuccess(message);
-    } else if (typeof showNotification === 'function') {
-        showNotification(message, 'success');
-    } else {
-        console.log('SUCCESS:', message);
-        alert(message);
+    try {
+        if (typeof showSuccess === 'function') {
+            showSuccess(message);
+        } else if (typeof showNotification === 'function') {
+            showNotification(message, 'success');
+        } else {
+            console.log('SUCCESS:', message);
+        }
+    } catch (error) {
+        console.log('SUCCESS (fallback):', message);
     }
 }
 
 function safeShowError(message) {
-    if (typeof showError === 'function') {
-        showError(message);
-    } else if (typeof showNotification === 'function') {
-        showNotification(message, 'error');
-    } else {
-        console.log('ERROR:', message);
-        alert(message);
+    try {
+        if (typeof showError === 'function') {
+            showError(message);
+        } else if (typeof showNotification === 'function') {
+            showNotification(message, 'error');
+        } else {
+            console.error('ERROR:', message);
+        }
+    } catch (error) {
+        console.error('ERROR (fallback):', message);
     }
 }
 
-// Simpan progress surah ke localStorage
-function saveProgressForSurah(surahNumber, progress) {
-    try {
-        if (!surahNumber || progress < 0) return;
-        
-        const progressData = JSON.parse(localStorage.getItem('quranSurahProgress') || '{}');
-        progressData[surahNumber] = {
-            progress: progress,
-            lastRead: new Date().toISOString(),
-            surahName: (window.quranData && window.quranData[surahNumber]) ? 
-                      window.quranData[surahNumber].name : `Surah ${surahNumber}`
-        };
-        localStorage.setItem('quranSurahProgress', JSON.stringify(progressData));
-        console.log(`Progress saved for surah ${surahNumber}: ${progress}%`);
-    } catch (error) {
-        console.error('Error saving progress:', error);
-    }
-}
 
 // Load progress surah dari localStorage
 function loadProgressForSurah(surahNumber) {
@@ -4611,23 +5324,17 @@ function hasSavedProgress(surahNumber) {
 
 function getSurahName(surahNumber) {
     try {
-        // Coba ambil dari quranData global
-        if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
+        // Gunakan quranData yang sudah diperbaiki sebagai object
+        if (quranData[surahNumber]) {
             return quranData[surahNumber].name;
         }
         
-        // Coba dari window.quranData
-        if (window.quranData && window.quranData[surahNumber]) {
-            return window.quranData[surahNumber].name;
-        }
-        
-        // Fallback - coba ambil dari select option yang dipilih
+        // Fallback dari select option
         const surahSelect = document.getElementById('surah');
         if (surahSelect) {
-            const selectedOption = surahSelect.options[surahSelect.selectedIndex];
-            if (selectedOption && selectedOption.value == surahNumber) {
-                const optionText = selectedOption.textContent;
-                // Extract nama surah dari text seperti "1. Al-Fatihah (الفاتحة)"
+            const option = surahSelect.querySelector(`option[value="${surahNumber}"]`);
+            if (option) {
+                const optionText = option.textContent;
                 const match = optionText.match(/^\d+\.\s*([^(]+)/);
                 if (match) {
                     return match[1].trim();
@@ -4635,7 +5342,6 @@ function getSurahName(surahNumber) {
             }
         }
         
-        // Ultimate fallback
         return `Surah ${surahNumber}`;
     } catch (error) {
         console.error('Error getting surah name:', error);
@@ -4706,10 +5412,10 @@ function showContinueProgressModal(surahNumber, savedProgress, callback) {
         let lastVerseRead = 0;
         
         try {
-            if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
-                totalVerses = Object.keys(quranData[surahNumber].verses).length;
-            } else if (window.quranData && window.quranData[surahNumber]) {
-                totalVerses = Object.keys(window.quranData[surahNumber].verses).length;
+            if (typeof quranData !== 'undefined' && quranData(surahNumber)) {
+                totalVerses = Object.keys(quranData(surahNumber).verses).length;
+            } else if (window.quranData && window.quranData(surahNumber)) {
+                totalVerses = Object.keys(window.quranData(surahNumber).verses).length;
             }
             
             if (totalVerses > 0) {
@@ -4850,7 +5556,7 @@ function confirmContinueProgressV2(surahNumber, savedProgress, shouldContinue) {
     }
 }
 
-// Scroll ke posisi berdasarkan progress
+// PERBAIKAN: Scroll ke posisi tanpa delay berlebihan
 function scrollToProgressPosition(progress) {
     try {
         const ayahCards = document.querySelectorAll('.ayah-card');
@@ -4860,16 +5566,17 @@ function scrollToProgressPosition(progress) {
         const targetCard = ayahCards[Math.min(targetIndex, ayahCards.length - 1)];
         
         if (targetCard) {
+            // Scroll langsung tanpa delay
             targetCard.scrollIntoView({ 
                 behavior: 'smooth', 
                 block: 'center' 
             });
             
-            // Highlight target card
+            // Highlight tanpa delay
             targetCard.classList.add('highlight');
             setTimeout(() => {
                 targetCard.classList.remove('highlight');
-            }, 3000);
+            }, 2000); // Kurangi dari 3000 ke 2000
         }
     } catch (error) {
         console.error('Error scrolling to progress position:', error);
@@ -4950,7 +5657,7 @@ function setupPerSurahProgressListener() {
         // Add new listener
         window.addEventListener('scroll', handleScroll, { passive: true });
         
-        console.log('Per-surah progress scroll listener setup');
+        console.log('Per-surah progress integrated with main scroll handler');
     } catch (error) {
         console.error('Error setting up scroll listener:', error);
     }
@@ -4961,14 +5668,14 @@ function loadSurahWithProgressConfirm() {
     try {
         const surahSelect = document.getElementById('surah');
         if (!surahSelect) {
-            safeShowError('Surah select not found');
+            showError('Surah select not found');
             return;
         }
         
         const newSurahNumber = parseInt(surahSelect.value);
         
         if (!newSurahNumber || isNaN(newSurahNumber)) {
-            safeShowError('Silakan pilih surah terlebih dahulu');
+            showError('Silakan pilih surah terlebih dahulu');
             return;
         }
         
@@ -4982,33 +5689,19 @@ function loadSurahWithProgressConfirm() {
                 
                 // Tampilkan modal konfirmasi untuk melanjutkan atau mulai dari awal
                 showContinueProgressModal(newSurahNumber, savedProgress, () => {
-                    // Load surah setelah konfirmasi
-                    if (originalLoadSurah) {
-                        originalLoadSurah();
-                    } else {
-                        safeShowError('Original loadSurah function not found');
-                    }
+                    // Load surah setelah konfirmasi - gunakan loadSurah biasa
+                    loadSurah();
                     
                     // Update currentSurah global variable
-                    if (typeof window.currentSurah !== 'undefined') {
-                        window.currentSurah = newSurahNumber;
-                    }
+                    currentSurah = newSurahNumber;
                 });
             } else {
                 // Surah baru, mulai dari 0%
                 maxReadingProgress = 0;
                 updateProgressBarDisplay();
                 
-                if (originalLoadSurah) {
-                    originalLoadSurah();
-                } else {
-                    safeShowError('Original loadSurah function not found');
-                }
-                
-                // Update currentSurah global variable
-                if (typeof window.currentSurah !== 'undefined') {
-                    window.currentSurah = newSurahNumber;
-                }
+                loadSurah();
+                currentSurah = newSurahNumber;
             }
         };
         
@@ -5021,7 +5714,7 @@ function loadSurahWithProgressConfirm() {
         }
     } catch (error) {
         console.error('Error in loadSurahWithProgressConfirm:', error);
-        safeShowError('Terjadi kesalahan saat memuat surah');
+        showError('Terjadi kesalahan saat memuat surah');
     }
 }
 
@@ -5033,28 +5726,43 @@ function previousSurahWithProgressConfirm() {
         
         const currentValue = parseInt(surahSelect.value);
         
-        if (currentValue && currentValue > 1 && window.quranData) {
-            const surahKeys = Object.keys(window.quranData).map(Number).sort((a, b) => a - b);
-            const currentIndex = surahKeys.indexOf(currentValue);
+        if (currentValue && currentValue > 1) {
+            const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = availableSurahs.indexOf(currentValue);
+            
             if (currentIndex > 0) {
-                const prevSurah = surahKeys[currentIndex - 1];
+                const prevSurah = availableSurahs[currentIndex - 1];
                 
                 // Fungsi untuk pindah ke surah sebelumnya
                 const proceedToPrevSurah = () => {
                     surahSelect.value = prevSurah;
-                    loadSurahWithProgressConfirm();
+                    updateNavigationButtons();
+                    
+                    // Load surah dengan konfirmasi progress
+                    if (typeof loadSurahWithProgressConfirm === 'function') {
+                        loadSurahWithProgressConfirm();
+                    } else if (typeof loadSurah === 'function') {
+                        loadSurah();
+                    } else {
+                        loadSurahNormal();
+                    }
                 };
                 
                 // Jika ada progress pada surah saat ini, tanya save/delete
-                if (maxReadingProgress > 0) {
+                if (currentSurahNumber && maxReadingProgress > 0) {
                     showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToPrevSurah);
                 } else {
                     proceedToPrevSurah();
                 }
+            } else {
+                showWarning('⚠️ Sudah di surah pertama yang tersedia');
             }
+        } else {
+            showWarning('⚠️ Pilih surah terlebih dahulu');
         }
     } catch (error) {
         console.error('Error in previousSurahWithProgressConfirm:', error);
+        showError('❌ Gagal pindah ke surah sebelumnya');
     }
 }
 
@@ -5065,28 +5773,43 @@ function nextSurahWithProgressConfirm() {
         
         const currentValue = parseInt(surahSelect.value);
         
-        if (currentValue && window.quranData) {
-            const surahKeys = Object.keys(window.quranData).map(Number).sort((a, b) => a - b);
-            const currentIndex = surahKeys.indexOf(currentValue);
-            if (currentIndex < surahKeys.length - 1) {
-                const nextSurah = surahKeys[currentIndex + 1];
+        if (currentValue) {
+            const availableSurahs = Object.keys(quranData).map(Number).sort((a, b) => a - b);
+            const currentIndex = availableSurahs.indexOf(currentValue);
+            
+            if (currentIndex < availableSurahs.length - 1) {
+                const nextSurahNum = availableSurahs[currentIndex + 1];
                 
                 // Fungsi untuk pindah ke surah selanjutnya
                 const proceedToNextSurah = () => {
-                    surahSelect.value = nextSurah;
-                    loadSurahWithProgressConfirm();
+                    surahSelect.value = nextSurahNum;
+                    updateNavigationButtons();
+                    
+                    // Load surah dengan konfirmasi progress
+                    if (typeof loadSurahWithProgressConfirm === 'function') {
+                        loadSurahWithProgressConfirm();
+                    } else if (typeof loadSurah === 'function') {
+                        loadSurah();
+                    } else {
+                        loadSurahNormal();
+                    }
                 };
                 
                 // Jika ada progress pada surah saat ini, tanya save/delete
-                if (maxReadingProgress > 0) {
+                if (currentSurahNumber && maxReadingProgress > 0) {
                     showSaveProgressModal(currentSurahNumber, maxReadingProgress, proceedToNextSurah);
                 } else {
                     proceedToNextSurah();
                 }
+            } else {
+                showWarning('⚠️ Sudah di surah terakhir yang tersedia');
             }
+        } else {
+            showWarning('⚠️ Pilih surah terlebih dahulu');
         }
     } catch (error) {
         console.error('Error in nextSurahWithProgressConfirm:', error);
+        showError('❌ Gagal pindah ke surah selanjutnya');
     }
 }
 
@@ -5098,37 +5821,37 @@ function initPerSurahProgressSystem() {
         // Setup scroll listener
         setupPerSurahProgressListener();
         
-        // Backup dan override functions dengan delay untuk memastikan functions sudah ada
+        // Override functions setelah delay yang cukup
         setTimeout(() => {
             try {
-                // Backup original functions
-                if (typeof window.loadSurah === 'function' && !originalLoadSurah) {
-                    originalLoadSurah = window.loadSurah;
+                // Backup dan override loadSurah
+                if (typeof loadSurah === 'function') {
+                    window.originalLoadSurah = loadSurah;
                     window.loadSurah = loadSurahWithProgressConfirm;
                     console.log('loadSurah function overridden');
+                } else {
+                    // Jika loadSurah belum ada, buat yang baru
+                    window.loadSurah = loadSurahWithProgressConfirm;
+                    console.log('loadSurah function created');
                 }
                 
-                if (typeof window.previousSurah === 'function' && !originalPreviousSurah) {
-                    originalPreviousSurah = window.previousSurah;
+                // Backup dan override navigation functions
+                if (typeof previousSurah === 'function') {
+                    window.originalPreviousSurah = previousSurah;
                     window.previousSurah = previousSurahWithProgressConfirm;
                     console.log('previousSurah function overridden');
                 }
                 
-                if (typeof window.nextSurah === 'function' && !originalNextSurah) {
-                    originalNextSurah = window.nextSurah;
+                if (typeof nextSurah === 'function') {
+                    window.originalNextSurah = nextSurah;
                     window.nextSurah = nextSurahWithProgressConfirm;
                     console.log('nextSurah function overridden');
                 }
                 
-                // Override updateReadingProgress jika ada
-                if (typeof window.updateReadingProgress === 'function') {
-                    window.updateReadingProgress = updateReadingProgressPerSurah;
-                    console.log('updateReadingProgress function overridden');
-                }
             } catch (error) {
                 console.error('Error overriding functions:', error);
             }
-        }, 1000);
+        }, 2000); // Naikkan delay ke 2000ms
         
         // Reset progress bar
         maxReadingProgress = 0;
@@ -5157,32 +5880,32 @@ window.confirmContinueProgressV2 = confirmContinueProgressV2;
 
 // Auto init when DOM ready dengan multiple fallbacks
 (function() {
-    function tryInit() {
+    function tryInitFixed() {
         if (document.body && document.head) {
-            initPerSurahProgressSystem();
+            initPerSurahProgressSystemFixed();
             return true;
         }
         return false;
     }
     
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        if (!tryInit()) {
-            setTimeout(tryInit, 500);
+        if (!tryInitFixed()) {
+            setTimeout(tryInitFixed, 500);
         }
     } else {
         document.addEventListener('DOMContentLoaded', () => {
-            if (!tryInit()) {
-                setTimeout(tryInit, 500);
+            if (!tryInitFixed()) {
+                setTimeout(tryInitFixed, 500);
             }
         });
         
         window.addEventListener('load', () => {
-            setTimeout(tryInit, 1000);
+            setTimeout(tryInitFixed, 1000);
         });
     }
 })();
 
-console.log('✅ Per-Surah Progress System V2 Loaded!');
+console.log('✅ Fixed Progress System - loadSurah() is now the default smart function!');
 
 // ===== PANEL PROGRESS BACA =====
 // Fungsi untuk mendapatkan semua progress yang tersimpan
@@ -5315,8 +6038,8 @@ function displayProgressList() {
         let estimatedVerse = '';
         try {
             let totalVerses = 0;
-            if (typeof quranData !== 'undefined' && quranData[surahNumber]) {
-                totalVerses = Object.keys(quranData[surahNumber].verses).length;
+            if (typeof quranData !== 'undefined' && quranData(surahNumber)) {
+                totalVerses = Object.keys(quranData(surahNumber).verses).length;
             }
             if (totalVerses > 0) {
                 const lastVerseRead = Math.ceil((progress / 100) * totalVerses);
@@ -5460,7 +6183,21 @@ window.toggleProgressPanel = toggleProgressPanel;
 window.goToProgressSurah = goToProgressSurah;
 window.continueFromProgress = continueFromProgress;
 window.deleteProgressFromPanel = deleteProgressFromPanel;
+// Expose functions to global scope
+window.previousSurah = previousSurah;
+window.nextSurah = nextSurah;
+window.updateNavigationButtons = updateNavigationButtons;
+window.setupNavigationEventListeners = setupNavigationEventListeners;
+window.initializeNavigationSystem = initializeNavigationSystem;
 
+window.loadSurahDirect = loadSurahDirect;
+window.loadSurah = loadSurah; // Ini adalah fungsi utama yang smart
+window.previousSurah = previousSurah; // Sudah default dengan progress confirmation
+window.nextSurah = nextSurah; // Sudah default dengan progress confirmation
+window.initPerSurahProgressSystemFixed = initPerSurahProgressSystemFixed;
+window.goToProgressSurahFixed = goToProgressSurahFixed;
+
+console.log('✅ Navigation system functions loaded successfully!');
 // Auto init panel progress
 (function() {
     function tryInitPanel() {
@@ -5483,6 +6220,39 @@ window.deleteProgressFromPanel = deleteProgressFromPanel;
 
 console.log('✅ Progress Panel System Loaded!');
 
+
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
+    
+    try {
+        // Initialize systems in correct order
+        addNotificationStyles();
+        initializeAudioPlayer();
+        initBookmarks();
+        loadSettings();
+        loadSearchHistory();
+        updateBookmarkCount();
+        populateSurahSelect();
+        
+        // Setup event listeners
+        setupEventListeners();
+        
+        // Initialize progress systems dengan delay
+        setTimeout(() => {
+            initializeProgressBar();
+        }, 500);
+        
+        updateAudioStatus(null);
+        
+        console.log('✅ Enhanced Al-Quran app initialized successfully!');
+    } catch (error) {
+        console.error('Error during initialization:', error);
+    }
+});
+
+console.log('✅ All fixes applied successfully!');
 
 </script>
 </body>
